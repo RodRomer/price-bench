@@ -1,6 +1,6 @@
 # The Maker's Price Bench
 
-A free pricing calculator for handmade sellers. Static site â€” one HTML file, no build step,
+A free pricing calculator for handmade sellers. Static site — one HTML file, no build step,
 no dependencies, no server.
 
 **Live:** https://price-bench-weld.vercel.app
@@ -18,7 +18,7 @@ order total = (target profit + flat fees + shipping cost + true cost) / (1 - k)
 item price  = order total - shipping charged to buyer
 ```
 
-Dividing rather than multiplying is the whole point â€” a percentage fee charged on the final
+Dividing rather than multiplying is the whole point — a percentage fee charged on the final
 price cannot be covered by adding that percentage on top.
 
 ## Deploying
@@ -26,17 +26,26 @@ price cannot be covered by adding that percentage on top.
 Vercel, or any static host. There is no build command and no framework. Point it at this
 directory and serve `index.html`.
 
-## Before going live
+Deployments are linked to this repository, so pushing to the default branch publishes.
 
-Search and replace these placeholders in `index.html`:
+## Outstanding
 
-| Placeholder | Appears | Replace with |
-|---|---|---|
-| `price-bench-weld.vercel.app` | 2Ã— | Your real domain, for the canonical and Open Graph tags |
-| `REPLACE-WITH-YOUR-GUMROAD-OR-ETSY-LINK` | 1Ã— | The purchase link for the full edition |
+The purchase button in the upgrade section is currently a disabled "coming soon" state,
+because the product is not yet listed for sale. Once it has a URL, swap this line in
+`index.html`:
 
-The canonical and Open Graph URLs matter for search indexing and for how the page previews
-when shared â€” leaving the placeholder in costs you both.
+```html
+<span class="buy is-soon" aria-disabled="true">Full version coming soon <span class="price-tag">$12</span></span>
+```
+
+back to:
+
+```html
+<a class="buy" href="YOUR-PURCHASE-URL">Get the full version <span class="price-tag">$12</span></a>
+```
+
+If a custom domain is added later, update the `canonical` and `og:url` tags in the document
+head, which currently point at the `.vercel.app` address.
 
 ## Notes
 
@@ -45,3 +54,5 @@ when shared â€” leaving the placeholder in costs you both.
   marketplaces change them.
 - Light and dark themes are token-based and follow the visitor's system setting, with a
   manual override.
+- The paid edition is deliberately kept outside this repository. Do not add it — a public
+  repo would serve it for free.
