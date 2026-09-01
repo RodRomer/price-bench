@@ -1,9 +1,9 @@
 # The Maker's Price Bench
 
-A free pricing calculator for handmade sellers. Static site — one HTML file, no build step,
+A free pricing calculator for handmade sellers. Static site â€” one HTML file, no build step,
 no dependencies, no server.
 
-**Live:** https://REPLACE-WITH-YOUR-DOMAIN.com
+**Live:** https://price-bench-weld.vercel.app
 
 ## What it does
 
@@ -18,7 +18,7 @@ order total = (target profit + flat fees + shipping cost + true cost) / (1 - k)
 item price  = order total - shipping charged to buyer
 ```
 
-Dividing rather than multiplying is the whole point — a percentage fee charged on the final
+Dividing rather than multiplying is the whole point â€” a percentage fee charged on the final
 price cannot be covered by adding that percentage on top.
 
 ## Deploying
@@ -32,11 +32,11 @@ Search and replace these placeholders in `index.html`:
 
 | Placeholder | Appears | Replace with |
 |---|---|---|
-| `REPLACE-WITH-YOUR-DOMAIN.com` | 2× | Your real domain, for the canonical and Open Graph tags |
-| `REPLACE-WITH-YOUR-GUMROAD-OR-ETSY-LINK` | 1× | The purchase link for the full edition |
+| `price-bench-weld.vercel.app` | 2Ã— | Your real domain, for the canonical and Open Graph tags |
+| `REPLACE-WITH-YOUR-GUMROAD-OR-ETSY-LINK` | 1Ã— | The purchase link for the full edition |
 
 The canonical and Open Graph URLs matter for search indexing and for how the page previews
-when shared — leaving the placeholder in costs you both.
+when shared â€” leaving the placeholder in costs you both.
 
 ## Notes
 
