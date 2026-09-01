@@ -6,12 +6,12 @@
 
 <title>Handmade Pricing Calculator — What to Charge After Etsy Fees | The Maker's Price Bench</title>
 <meta name="description" content="Free pricing calculator for handmade sellers. Works backwards through Etsy's fee stack to find the price that actually nets your target profit — and shows what you're really earning per hour.">
-<link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN.com/">
+<link rel="canonical" href="https://price-bench-weld.vercel.app/">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Maker's Price Bench — handmade pricing calculator">
 <meta property="og:description" content="Most pricing formulas multiply your cost by four and ignore fees. This one solves backwards through Etsy's fee stack, then tells you your true hourly rate.">
-<meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN.com/">
+<meta property="og:url" content="https://price-bench-weld.vercel.app/">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316715B'/><path d='M30 70V30h10v32h22v8z' fill='%23fff'/></svg>">
@@ -362,6 +362,9 @@ details.fees[open] .chev { transform: rotate(90deg); }
 }
 .buy:hover { transform: translateY(-1px); }
 .buy .price-tag { font-family: "IBM Plex Mono", monospace; opacity: .82; }
+/* Placeholder state until the product has a real purchase URL — never ship a dead link. */
+.buy.is-soon { background: transparent; color: var(--mat); border-style: dashed; cursor: default; }
+.buy.is-soon:hover { transform: none; }
 
 /* ---- Editorial ---- */
 .article { max-width: 68ch; margin: 60px auto 0; }
@@ -645,7 +648,8 @@ footer {
         <li>Works offline, forever. No account, no cloud, no monthly fee.</li>
       </ul>
     </div>
-    <a class="buy" href="REPLACE-WITH-YOUR-GUMROAD-OR-ETSY-LINK">Get the full version <span class="price-tag">$12</span></a>
+    <!-- Swap this back to <a class="buy" href="YOUR-GUMROAD-URL"> once the product is listed. -->
+    <span class="buy is-soon" aria-disabled="true">Full version coming soon <span class="price-tag">$12</span></span>
   </section>
 
   <!-- ---------- Editorial ---------- -->
