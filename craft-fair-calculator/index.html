@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="p:domain_verify" content="2f674c6ba3e481e8df24407f6a81affe"/>
+
+<title>Craft Fair Breakeven Calculator — How Much You Need to Sell | Maker Margins</title>
+<meta name="description" content="Free craft fair calculator. Booth fee, travel, stock and the hours you'll actually stand there — see how many items you need to sell before the day pays you anything.">
+<link rel="canonical" href="https://makermargins.com/craft-fair-calculator/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Craft Fair Breakeven Calculator">
+<meta property="og:description" content="Booth fee, travel and twelve hours of your day. See how many items you need to sell before a craft fair is worth doing.">
+<meta property="og:url" content="https://makermargins.com/craft-fair-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316715B'/><path d='M30 70V30h10v32h22v8z' fill='%23fff'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Craft Fair Breakeven Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "description": "Works out how many items a maker must sell at a craft fair to cover costs and pay themselves for the day.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I know if a craft fair is worth doing?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Work out the total cost of the day including the booth fee, travel, parking and the hours you will spend travelling, setting up, standing at the table and packing down. Divide that by the profit you make on an average item. That is how many items you must sell before the day has paid you anything, and it is usually far more than sellers expect because the hours are rarely counted." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do craft fairs feel unprofitable even when sales are good?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Because a stall day is rarely a six-hour commitment. Loading, driving, setting up, standing for the event, packing down and driving home routinely comes to twelve hours or more. A day that takes 400 dollars at the table can still work out below minimum wage once those hours are counted against it." }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I count my own time as a cost at a craft fair?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, if you want to know whether the day was worth doing rather than whether it lost money. Covering the booth fee is a low bar that most fairs clear. The useful question is whether the day paid you a reasonable rate for the hours it consumed, which is a much higher bar and the one that decides whether to book the next one." }
+    }
+  ]
+}
+</script>
+
+<style>
+:root {
+  color-scheme: light;
+  --paper: #F2F4F1; --panel: #FBFCFA; --panel-2: #EAEEE9;
+  --line: #D3DAD2; --line-soft: #E2E7E0;
+  --ink: #14201C; --ink-2: #46564F; --ink-3: #6F7F77;
+  --mat: #16715B; --mat-deep: #0E4E3F; --mat-wash: #DCEBE5;
+  --loss: #A9382A; --loss-wash: #F6E2DE; --warn: #8A5B12; --warn-wash: #F6EBD8;
+  --seg-booth: #B3803C; --seg-travel: #9AAAA2; --seg-time: #4C6B60; --seg-keep: #16715B;
+  --on-mat: #FFFFFF;
+  --shadow: 0 1px 2px rgba(20,32,28,.05), 0 8px 24px -16px rgba(20,32,28,.28);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+    --line: #2C3A35; --line-soft: #232E2A;
+    --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+    --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+    --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+    --seg-booth: #D2A05B; --seg-travel: #5E6E68; --seg-time: #6E958A; --seg-keep: #4FBF9E;
+    --on-mat: #0B1512;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+  --line: #2C3A35; --line-soft: #232E2A;
+  --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+  --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+  --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+  --seg-booth: #D2A05B; --seg-travel: #5E6E68; --seg-time: #6E958A; --seg-keep: #4FBF9E;
+  --on-mat: #0B1512;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.num { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 22px 0; }
+
+.masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mat); font-weight: 600; margin: 0 0 8px; }
+.eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.eyebrow a:hover { color: var(--ink); }
+h1 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-optical-sizing: auto; font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.02; letter-spacing: -.024em; margin: 0; text-wrap: balance; }
+.dek { margin: 13px 0 0; color: var(--ink-2); max-width: 56ch; font-size: 14.5px; }
+button.ghost { font: inherit; font-size: 12.5px; background: var(--panel); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: border-color .15s, color .15s; }
+button.ghost:hover { border-color: var(--mat); color: var(--mat); }
+:is(a, button, input, select):focus-visible { outline: 2px solid var(--mat); outline-offset: 2px; }
+
+.bench { display: grid; grid-template-columns: minmax(0,0.85fr) minmax(0,1fr); gap: 30px; align-items: start; }
+@media (max-width: 900px) { .bench { grid-template-columns: minmax(0,1fr); } }
+
+.card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; }
+.card + .card { margin-top: 16px; }
+.card h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 15px; font-weight: 700; margin: 0 0 3px; letter-spacing: -.012em; }
+.card .hint { margin: 0 0 14px; font-size: 12.5px; color: var(--ink-3); max-width: 52ch; }
+.card .hint a { color: var(--mat); }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 118px; min-width: 0; }
+.field > label, .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.input-shell { display: flex; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 0 9px; gap: 2px; transition: border-color .15s; }
+.input-shell:focus-within { border-color: var(--mat); }
+.input-shell .affix { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-3); flex: none; }
+.input-shell input { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--ink); background: none; border: 0; padding: 8px 0; width: 100%; min-width: 0; }
+.input-shell input:focus { outline: none; }
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.verdict {
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    repeating-linear-gradient(90deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+.verdict .lbl { display: block; margin-bottom: 6px; }
+.v-big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: clamp(46px, 7.4vw, 66px); font-weight: 800; line-height: .95; letter-spacing: -.03em; }
+.v-unit { font-family: "IBM Plex Sans", sans-serif; font-size: 20px; font-weight: 600; color: var(--ink-2); margin-left: 6px; }
+.v-sub { margin: 12px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 46ch; }
+.v-sub strong { color: var(--ink); }
+
+.tiers { display: flex; flex-direction: column; margin-top: 18px; border-top: 1px solid var(--line); }
+.tier { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.tier:last-child { border-bottom: 0; }
+.tier .k { color: var(--ink-2); }
+.tier .k small { display: block; color: var(--ink-3); font-size: 11px; }
+.tier .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 16px; }
+.tier.paid .v { color: var(--mat); }
+
+.outcome { margin-top: 16px; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--line); border-left: 3px solid var(--mat); background: var(--panel); }
+.outcome.warn { border-left-color: var(--warn); }
+.outcome.bad { border-left-color: var(--loss); }
+.outcome .big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 30px; font-weight: 700; letter-spacing: -.02em; margin: 8px 0 0; }
+.outcome.warn .big { color: var(--warn); }
+.outcome.bad .big { color: var(--loss); }
+.outcome p { margin: 6px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 48ch; }
+
+.flow-bar { display: flex; width: 100%; height: 26px; border-radius: 6px; overflow: hidden; background: var(--panel-2); border: 1px solid var(--line); margin-top: 16px; }
+.flow-seg { min-width: 2px; transition: flex-grow .25s ease; }
+.brk { display: flex; flex-direction: column; margin-top: 14px; }
+.brk-row { display: grid; grid-template-columns: 9px minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.brk-row:last-child { border-bottom: 0; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; }
+.brk-row .k { color: var(--ink-2); }
+.brk-row .k small { display: block; color: var(--ink-3); font-size: 11px; }
+.brk-row .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+.brk-row.total { border-top: 1px solid var(--line); border-bottom: 0; margin-top: 4px; padding-top: 10px; font-weight: 600; }
+
+.crosslink { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-top: 30px; padding: 18px 20px; border: 1px solid var(--mat); border-radius: var(--radius); background: var(--mat-wash); }
+.crosslink p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 54ch; }
+.crosslink strong { color: var(--ink); }
+.crosslink a { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14px; padding: 11px 20px; border-radius: 8px; }
+
+.buybox { max-width: 68ch; margin: 46px auto 0; padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.buybox h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; letter-spacing: -.015em; }
+.buybox p { margin: 0 0 14px; color: var(--ink-2); font-size: 14px; }
+.buybox ul { margin: 0 0 18px; padding: 0 0 0 17px; color: var(--ink-2); font-size: 13.5px; }
+.buybox li { margin: 4px 0; }
+.buybox a { display: inline-flex; align-items: center; gap: 9px; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 12px 22px; border-radius: 8px; }
+.buybox .tag { font-family: "IBM Plex Mono", monospace; opacity: .82; }
+
+.article { max-width: 68ch; margin: 56px auto 0; }
+.article h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.018em; margin: 40px 0 12px; text-wrap: balance; }
+.article h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 16px; font-weight: 700; margin: 24px 0 6px; }
+.article p { margin: 0 0 14px; color: var(--ink-2); line-height: 1.66; }
+.article strong { color: var(--ink); font-weight: 600; }
+.formula { display: block; margin: 16px 0; padding: 14px 16px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 13px; overflow-x: auto; }
+.faq { border-top: 1px solid var(--line); margin-top: 12px; }
+.faq details { border-bottom: 1px solid var(--line-soft); }
+.faq summary { list-style: none; cursor: pointer; padding: 14px 26px 14px 0; position: relative; font-weight: 600; font-size: 14.5px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-family: "IBM Plex Mono", monospace; color: var(--mat); font-size: 17px; }
+.faq details[open] summary::after { content: "−"; }
+.faq .ans { padding: 0 0 16px; color: var(--ink-2); font-size: 14px; line-height: 1.62; }
+.faq .ans p { margin: 0 0 10px; }
+.faq .ans p:last-child { margin: 0; }
+
+footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.foot-in { max-width: 1080px; margin: 0 auto; padding: 24px 22px 44px; font-size: 11.5px; color: var(--ink-3); line-height: 1.6; }
+.foot-in p { max-width: 76ch; margin: 0 0 9px; }
+.foot-in a { color: var(--mat); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="eyebrow"><a href="/">Maker&nbsp;Margins</a> &middot; booth &middot; travel &middot; the whole day</p>
+      <h1>Craft Fair Breakeven</h1>
+      <p class="dek">Covering the booth fee is a low bar, and almost every fair clears it. The real question is whether the day paid you for the twelve hours it actually took &mdash; loading, driving, setting up, standing there, packing down, driving home.</p>
+    </div>
+    <button class="ghost" id="themeBtn" type="button" aria-label="Switch colour theme"><span id="themeIcon">◑</span> Theme</button>
+  </header>
+
+  <div class="bench">
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+
+      <section class="card">
+        <h2>Cost of the day</h2>
+        <p class="hint">Everything you pay out whether you sell one thing or fifty.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="booth">Booth / table fee</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="booth" value="85" min="0" step="5"></div>
+          </div>
+          <div class="field">
+            <label for="travel">Fuel / travel</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="travel" value="22" min="0" step="1"></div>
+          </div>
+          <div class="field">
+            <label for="extras">Parking &amp; other</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="extras" value="15" min="0" step="1"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Your day</h2>
+        <p class="hint">Count the whole thing, not just the opening hours. Loading the car, driving both ways, setting up and packing down is usually as long again as the fair itself.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="eventHours">Hours at the fair</label>
+            <div class="input-shell"><input type="number" id="eventHours" value="7" min="0" step="0.5"><span class="affix">h</span></div>
+          </div>
+          <div class="field">
+            <label for="otherHours">Travel, setup, packing</label>
+            <div class="input-shell"><input type="number" id="otherHours" value="5" min="0" step="0.5"><span class="affix">h</span></div>
+          </div>
+          <div class="field">
+            <label for="rate">Your hourly rate</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="rate" value="22" min="0" step="0.5"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>What you're selling</h2>
+        <p class="hint">Cost per item means materials plus the time it took to make &mdash; the <a href="/pricing-calculator/">pricing calculator</a> works it out if you're unsure.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="price">Average price</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="price" value="26" min="0" step="0.50"></div>
+          </div>
+          <div class="field">
+            <label for="cost">Cost per item</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="cost" value="14" min="0" step="0.25"></div>
+          </div>
+          <div class="field">
+            <label for="cardPct">Card fee</label>
+            <div class="input-shell"><input type="number" id="cardPct" value="2.9" min="0" max="99" step="0.1"><span class="affix">%</span></div>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:10px">
+          <div class="field">
+            <label for="expected">Items you expect to sell</label>
+            <div class="input-shell"><input type="number" id="expected" value="22" min="0" step="1"><span class="affix">items</span></div>
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <div>
+      <section class="verdict">
+        <span class="lbl">To be paid properly for the day, sell</span>
+        <div><span class="v-big num" id="bePaid">0</span><span class="v-unit" id="bePaidUnit">items</span></div>
+        <p class="v-sub" id="beSub"></p>
+
+        <div class="tiers">
+          <div class="tier">
+            <span class="k">Just to cover cash costs<small>Booth, travel and parking only — your time unpaid</small></span>
+            <span class="v num" id="beCash">0</span>
+          </div>
+          <div class="tier paid">
+            <span class="k">To also pay yourself<small id="paidNote">12 hours at $22/hr</small></span>
+            <span class="v num" id="bePaid2">0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="outcome" id="outcomeBox">
+        <span class="lbl">If you sell what you expect</span>
+        <p class="big num" id="effHourly">$0.00 / hr</p>
+        <p id="outcomeMsg"></p>
+      </section>
+
+      <section class="card">
+        <h2>Where the day's money goes</h2>
+        <p class="hint">At the sales figure you entered.</p>
+        <div class="flow-bar" id="flowBar" role="img" aria-label="Breakdown of the day's takings"></div>
+        <div class="brk" id="brk"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="crosslink">
+    <p><strong>If the breakeven number looks impossible, the problem may not be the fair.</strong> An item priced too low makes every stall day unwinnable, because there's too little profit in each sale to cover the hours.</p>
+    <a href="/pricing-calculator/">Check your pricing &rarr;</a>
+  </div>
+
+  <article class="article">
+
+    <h2>Why a good day at a fair can still pay badly</h2>
+
+    <p>Ask a maker how a craft fair went and you'll usually hear the takings. Ask what it cost and you'll hear the booth fee. The gap between those two numbers is where the real answer lives, and it's mostly made of hours nobody counts.</p>
+
+    <p>A seven-hour fair is not a seven-hour day. There's packing the car the night before, driving there, unloading, setting up the table, the event itself, packing down while everyone else is packing down, driving home, and unloading again. Twelve hours is normal. Fourteen isn't unusual if the fair is an hour away.</p>
+
+    <h3>Two very different breakeven numbers</h3>
+
+    <p>The first is how many items cover the cash you laid out — booth fee, fuel, parking. That number is usually small and almost always cleared, which is why fairs feel fine.</p>
+
+    <p>The second is how many items cover the cash <em>and</em> pay you something for the day. That number is often three times the first one. On the worked example here it's the difference between <strong>11 items</strong> and <strong>35</strong>.</p>
+
+    <div class="formula">items needed = (cash costs + hours &times; your rate) &divide; profit per item</div>
+
+    <p>Neither number is the "right" one. They answer different questions. But sellers who only ever check the first are deciding to spend twelve hours based on whether they cleared eighty-five pounds of table fee.</p>
+
+    <h3>The number that actually decides it</h3>
+
+    <p>What matters most is the effective hourly rate: everything you cleared, divided by every hour it took. That's directly comparable to any other way you could have spent the day, including making stock to sell online without the driving.</p>
+
+    <p>Plenty of fairs come out below minimum wage on that measure while still feeling like a success, because a busy table is enjoyable and a quiet workshop isn't. That's a legitimate reason to do them. It just isn't a financial one, and it's worth knowing which reason you're acting on.</p>
+
+    <h3>What actually moves the number</h3>
+
+    <p>Selling more is the obvious lever and the hardest to control. The ones you can control are the price of what's on the table, the mix &mdash; a few higher-value pieces change the maths faster than more small ones &mdash; and picking fairs where the booth fee and the drive are proportionate to the crowd.</p>
+
+    <p>A fair an hour away with a $40 table can easily beat a prestigious one two hours away at $150, even if the second one takes more money on the day.</p>
+
+    <h2>Common questions</h2>
+
+    <div class="faq">
+      <details>
+        <summary>Should I really count my own time?</summary>
+        <div class="ans">
+          <p>If you want to know whether the day was <em>worth</em> doing, yes. If you only want to know whether it lost money, no.</p>
+          <p>Both are useful, which is why the calculator shows both numbers rather than picking one for you.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What about stock I don't sell?</summary>
+        <div class="ans">
+          <p>Unsold stock isn't a loss — you still have it and can sell it later or at the next fair. That's why this counts the cost of items actually sold rather than everything you brought.</p>
+          <p>The exception is anything perishable or seasonal that won't sell afterwards. If that applies, add its cost into the parking and other field.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Are fairs worth doing at all?</summary>
+        <div class="ans">
+          <p>Often, but not always for the money. Direct feedback on what people pick up, an email list, repeat customers and stockist enquiries are real value that doesn't show up in the day's takings.</p>
+          <p>Run the numbers so the decision is deliberate. A fair that pays $10 an hour but brings three wholesale enquiries may be an excellent use of a Saturday.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Are my numbers stored anywhere?</summary>
+        <div class="ans">
+          <p>No. Everything runs in your browser, there's no account, and nothing is uploaded.</p>
+        </div>
+      </details>
+    </div>
+
+  </article>
+
+  <section class="buybox">
+    <h2>Pricing a whole catalogue?</h2>
+    <p>Every calculator here is free and always will be. If you're pricing more than one product, there's a paid edition that keeps your entire catalogue on the bench at once &mdash; a single file you own outright, not a subscription.</p>
+    <ul>
+      <li>Save unlimited products and switch between them instantly</li>
+      <li>Every product ranked by true hourly rate, worst first</li>
+      <li>Reusable material library &mdash; enter a supply cost once, use it everywhere</li>
+      <li>CSV export and a printable one-page cost sheet per product</li>
+      <li>Works offline, forever. No account, no cloud, no monthly fee.</li>
+      <li><strong>Every tool added later is included free.</strong> The price rises as they ship &mdash; what it costs today is the lowest it will ever be.</li>
+    </ul>
+    <a href="https://rodsley.gumroad.com/l/fzflrk?wanted=true">Get the full version <span class="tag">$12</span></a>
+  </section>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <p><strong>Maker Margins</strong> &mdash; <a href="/">free business calculators for handmade sellers</a>.</p>
+    <p>General business calculations, not financial, accounting, tax or legal advice.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  function money(n) { if (!isFinite(n)) { n = 0; } return (n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2); }
+  function numOf(id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; }
+
+  /* Pure — plain object in, everything the page needs out. */
+  function fairModel(i) {
+    var cashCosts = (i.booth || 0) + (i.travel || 0) + (i.extras || 0);
+    var hours     = (i.eventHours || 0) + (i.otherHours || 0);
+    var timeCost  = hours * (i.rate || 0);
+
+    /* What one sale actually contributes once the item and the card fee are paid for. */
+    var perItem = (i.price || 0) - (i.cost || 0) - ((i.price || 0) * ((i.cardPct || 0) / 100));
+
+    var beCash = perItem > 0 ? cashCosts / perItem : null;
+    var bePaid = perItem > 0 ? (cashCosts + timeCost) / perItem : null;
+
+    var sold        = i.expected || 0;
+    var contribution = perItem * sold;
+    var takings     = (i.price || 0) * sold;
+    var cardFees    = takings * ((i.cardPct || 0) / 100);
+    var stockCost   = (i.cost || 0) * sold;
+    var cashProfit  = contribution - cashCosts;          /* before paying yourself */
+    var effHourly   = hours > 0 ? cashProfit / hours : null;
+
+    return {
+      cashCosts: cashCosts, hours: hours, timeCost: timeCost, perItem: perItem,
+      beCash: beCash, bePaid: bePaid, sold: sold, takings: takings,
+      cardFees: cardFees, stockCost: stockCost,
+      contribution: contribution, cashProfit: cashProfit, effHourly: effHourly
+    };
+  }
+
+  function readInputs() {
+    return {
+      booth: numOf("booth"), travel: numOf("travel"), extras: numOf("extras"),
+      eventHours: numOf("eventHours"), otherHours: numOf("otherHours"), rate: numOf("rate"),
+      price: numOf("price"), cost: numOf("cost"), cardPct: numOf("cardPct"),
+      expected: numOf("expected")
+    };
+  }
+
+  function render() {
+    var i = readInputs();
+    var m = fairModel(i);
+
+    if (m.bePaid === null) {
+      $("bePaid").textContent = "—";
+      $("bePaidUnit").textContent = "";
+      $("beSub").textContent = "At this price your items don't make a profit at all, so no number of sales covers the day. Check the item price and cost first.";
+      $("beCash").textContent = "—";
+      $("bePaid2").textContent = "—";
+    } else {
+      $("bePaid").textContent = Math.ceil(m.bePaid);
+      $("bePaidUnit").textContent = Math.ceil(m.bePaid) === 1 ? "item" : "items";
+      $("beSub").innerHTML = "Each sale contributes <strong>" + money(m.perItem)
+        + "</strong> after the item and the card fee. The day costs <strong>" + money(m.cashCosts)
+        + "</strong> in cash plus <strong>" + money(m.timeCost) + "</strong> of your time.";
+      $("beCash").textContent  = Math.ceil(m.beCash);
+      $("bePaid2").textContent = Math.ceil(m.bePaid);
+    }
+    $("paidNote").textContent = m.hours + " hours at " + money(i.rate) + "/hr";
+
+    var box = $("outcomeBox");
+    box.classList.remove("warn", "bad");
+    if (m.effHourly === null) {
+      $("effHourly").textContent = money(m.cashProfit);
+      $("outcomeMsg").textContent = "Add your hours to see what the day pays per hour.";
+    } else {
+      $("effHourly").textContent = money(m.effHourly) + " / hr";
+      if (m.cashProfit < 0) {
+        box.classList.add("bad");
+        $("outcomeMsg").textContent = "Selling " + m.sold + " items takes " + money(m.takings)
+          + ", which doesn't cover the stock and the cost of the day. You'd finish " + money(-m.cashProfit)
+          + " down, having worked " + m.hours + " hours for it.";
+      } else if (m.effHourly < i.rate) {
+        box.classList.add("warn");
+        $("outcomeMsg").textContent = "Selling " + m.sold + " items clears " + money(m.cashProfit)
+          + " across " + m.hours + " hours — under the " + money(i.rate)
+          + "/hr you set. The day pays, but not at your rate.";
+      } else {
+        $("outcomeMsg").textContent = "Selling " + m.sold + " items clears " + money(m.cashProfit)
+          + " across " + m.hours + " hours, beating the " + money(i.rate) + "/hr you asked for.";
+      }
+    }
+
+    var rows = [
+      { k: "Stock sold",        sub: m.sold + " items at " + money(i.cost), v: m.stockCost, c: "var(--seg-travel)" },
+      { k: "Booth, travel, parking", sub: "paid whatever you sell",         v: m.cashCosts, c: "var(--seg-booth)" },
+      { k: "Card fees",         sub: i.cardPct + "% of takings",            v: m.cardFees,  c: "var(--seg-time)" }
+    ];
+    if (m.cashProfit > 0) { rows.push({ k: "Left for you", sub: "before your own time", v: m.cashProfit, c: "var(--seg-keep)" }); }
+
+    var denom = Math.max(m.takings, m.stockCost + m.cashCosts + m.cardFees, 0.01);
+    var bar = $("flowBar"); bar.textContent = "";
+    rows.forEach(function (r) {
+      if (r.v <= 0) { return; }
+      var el = document.createElement("div");
+      el.className = "flow-seg"; el.style.background = r.c;
+      el.style.flex = (r.v / denom) + " 0 0";
+      el.title = r.k + " " + money(r.v);
+      bar.appendChild(el);
+    });
+
+    var host = $("brk"); host.textContent = "";
+    rows.forEach(function (r) {
+      var row = document.createElement("div"); row.className = "brk-row";
+      var sw = document.createElement("span"); sw.className = "swatch"; sw.style.background = r.c;
+      var k = document.createElement("span"); k.className = "k";
+      k.appendChild(document.createTextNode(r.k));
+      var s = document.createElement("small"); s.textContent = r.sub; k.appendChild(s);
+      var v = document.createElement("span"); v.className = "v"; v.textContent = money(r.v);
+      row.appendChild(sw); row.appendChild(k); row.appendChild(v);
+      host.appendChild(row);
+    });
+    var tot = document.createElement("div"); tot.className = "brk-row total";
+    var ts = document.createElement("span");
+    var tk = document.createElement("span"); tk.className = "k"; tk.textContent = "Taken at the table";
+    var tv = document.createElement("span"); tv.className = "v"; tv.textContent = money(m.takings);
+    tot.appendChild(ts); tot.appendChild(tk); tot.appendChild(tv);
+    host.appendChild(tot);
+  }
+
+  ["booth","travel","extras","eventHours","otherHours","rate","price","cost","cardPct","expected"]
+    .forEach(function (id) { $(id).addEventListener("input", render); });
+
+  $("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var cur = root.getAttribute("data-theme");
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur === "dark" ? "light" : cur === "light" ? "dark" : (systemDark ? "light" : "dark");
+    root.setAttribute("data-theme", next);
+    $("themeIcon").textContent = next === "dark" ? "◐" : "◑";
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
