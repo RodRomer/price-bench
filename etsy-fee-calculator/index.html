@@ -40,7 +40,7 @@
     {
       "@type": "Question",
       "name": "Does Etsy charge fees on shipping?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The 6.5% transaction fee and payment processing both apply to the shipping you charge the buyer, not just the item price. If you charge $7 postage, Etsy takes roughly 10% of that $7 before you ever pay the carrier. Offering free shipping does not avoid this, because the postage cost simply moves into a higher item price which is taxed at the same rate." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The 6.5% transaction fee applies to the whole order total, which means the item price plus the shipping you charge, plus gift wrapping and any personalisation fee. Payment processing applies to the same total. If you charge $7 postage, Etsy takes about 67 cents of it before you ever pay the carrier. Offering free shipping does not avoid this, because the postage cost simply moves into a higher item price charged at the same rate." }
     },
     {
       "@type": "Question",
@@ -241,7 +241,7 @@ footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--
 
       <section class="card">
         <h2>The sale</h2>
-        <p class="hint">What the buyer paid. Sales tax is excluded &mdash; Etsy collects and remits that separately, and it isn't part of the transaction fee.</p>
+        <p class="hint">What the buyer paid. If you charge for gift wrapping or personalisation, add it to the item price &mdash; Etsy's fee applies to those too. Sales tax is excluded; Etsy collects and remits that separately and it isn't part of the transaction fee.</p>
         <div class="field-row">
           <div class="field">
             <label for="price">Item price</label>
@@ -370,8 +370,9 @@ footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--
       <details>
         <summary>Does Etsy charge fees on shipping?</summary>
         <div class="ans">
-          <p>Yes. Both the 6.5% transaction fee and payment processing apply to the shipping you charge, not just the item. On $7 of postage that's about 70 cents gone before you pay the carrier.</p>
-          <p>The calculator above breaks this out as its own line so you can see it rather than having it buried in a total.</p>
+          <p>Yes. Both the 6.5% transaction fee and payment processing apply to the shipping you charge, not just the item. On $7 of postage that's about 67 cents gone before you pay the carrier.</p>
+          <p>The same is true of anything else you add to the order. The transaction fee is charged on the <em>whole</em> order total &mdash; item, shipping, gift wrapping and any personalisation fee. If you charge for gift wrap or customisation, fold those into the item price above so they're counted.</p>
+          <p>The calculator breaks the fee on postage out as its own line so you can see it rather than having it buried in a total.</p>
         </div>
       </details>
       <details>
