@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Handmade Pricing Calculator — What to Charge After Etsy Fees | The Maker's Price Bench</title>
-<meta name="description" content="Free pricing calculator for handmade sellers. Works backwards through Etsy's fee stack to find the price that actually nets your target profit — and shows what you're really earning per hour.">
-<link rel="canonical" href="https://price-bench-weld.vercel.app/">
+<title>Maker Margins — business maths for people who make things</title>
+<meta name="description" content="Free calculators for handmade sellers. Work out what to charge after marketplace fees, what shipping really costs you, and what your time is actually earning.">
+<link rel="canonical" href="https://makermargins.com/">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Maker's Price Bench — handmade pricing calculator">
-<meta property="og:description" content="Most pricing formulas multiply your cost by four and ignore fees. This one solves backwards through Etsy's fee stack, then tells you your true hourly rate.">
-<meta property="og:url" content="https://price-bench-weld.vercel.app/">
+<meta property="og:title" content="Maker Margins — business maths for people who make things">
+<meta property="og:description" content="Free calculators for handmade sellers. What to charge after fees, what shipping really costs, and what your time is actually earning.">
+<meta property="og:url" content="https://makermargins.com/">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316715B'/><path d='M30 70V30h10v32h22v8z' fill='%23fff'/></svg>">
@@ -20,87 +20,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "The Maker's Price Bench",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Any",
-  "description": "A pricing calculator for handmade sellers that solves backwards through marketplace fee structures to find the price that nets a target profit.",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How much does Etsy actually take per sale?",
-      "acceptedAnswer": { "@type": "Answer", "text": "In the US, Etsy charges a $0.20 listing fee, a 6.5% transaction fee on the full order total including shipping, and payment processing of roughly 3% plus $0.25. Offsite Ads add 12–15% on ad-attributed orders only. Because the percentage fees apply to the order total rather than the item price, they cost more than most sellers expect." }
-    },
-    {
-      "@type": "Question",
-      "name": "Why can't I just add the fees on top of my price?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Because percentage fees are charged on the final price. Raising your price to cover a fee also raises the fee. The correct method is to divide by one minus the combined fee rate, not to multiply and add." }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the standard handmade pricing formula?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The traditional formula is (materials + labour + overhead) × 2 for wholesale, then × 2 again for retail — often called keystone pricing. It is a reasonable starting point but ignores marketplace fees and shipping shortfalls entirely, which is why sellers using it often earn far less than they think." }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I offer free shipping on Etsy?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Free shipping is fee-neutral provided you raise the item price by exactly what postage costs you. Because Etsy's percentage fees are charged on the order total, and the order total is the same either way, you pay the same in fees. The danger is not the fees, it is offering free shipping without raising the price, which turns your postage bill into a direct loss on every order." }
-    }
-  ]
-}
-</script>
-
 <style>
-/* ============================================================
-   The Maker's Price Bench
-   Palette reference: a self-healing cutting mat — the one object
-   every maker already owns. Neutrals biased slightly green toward it.
-   ============================================================ */
 :root {
   color-scheme: light;
-
-  --paper:      #F2F4F1;
-  --panel:      #FBFCFA;
-  --panel-2:    #EAEEE9;
-  --line:       #D3DAD2;
-  --line-soft:  #E2E7E0;
-
-  --ink:        #14201C;
-  --ink-2:      #46564F;
-  --ink-3:      #6F7F77;
-
-  --mat:        #16715B;
-  --mat-deep:   #0E4E3F;
-  --mat-wash:   #DCEBE5;
-
-  --loss:       #A9382A;
-  --loss-wash:  #F6E2DE;
-  --warn:       #8A5B12;
-  --warn-wash:  #F6EBD8;
-
-  --seg-mat:    #7C8F86;
-  --seg-lab:    #4C6B60;
-  --seg-ovh:    #9AAAA2;
-  --seg-ship:   #B3803C;
-  --seg-fee:    #A9382A;
-  --seg-profit: #16715B;
-
-  --on-mat:     #FFFFFF;
-
+  --paper: #F2F4F1; --panel: #FBFCFA; --panel-2: #EAEEE9;
+  --line: #D3DAD2; --line-soft: #E2E7E0;
+  --ink: #14201C; --ink-2: #46564F; --ink-3: #6F7F77;
+  --mat: #16715B; --mat-deep: #0E4E3F; --mat-wash: #DCEBE5;
+  --warn: #8A5B12; --warn-wash: #F6EBD8;
+  --on-mat: #FFFFFF;
   --shadow: 0 1px 2px rgba(20,32,28,.05), 0 8px 24px -16px rgba(20,32,28,.28);
   --radius: 10px;
 }
-
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
@@ -108,9 +39,7 @@
     --line: #2C3A35; --line-soft: #232E2A;
     --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
     --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
-    --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
-    --seg-mat: #8B9E95; --seg-lab: #6E958A; --seg-ovh: #5E6E68;
-    --seg-ship: #D2A05B; --seg-fee: #C8564A; --seg-profit: #4FBF9E;
+    --warn: #E0B25F; --warn-wash: #2E2617;
     --on-mat: #0B1512;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
   }
@@ -121,308 +50,74 @@
   --line: #2C3A35; --line-soft: #232E2A;
   --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
   --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
-  --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
-  --seg-mat: #8B9E95; --seg-lab: #6E958A; --seg-ovh: #5E6E68;
-  --seg-ship: #D2A05B; --seg-fee: #C8564A; --seg-profit: #4FBF9E;
+  --warn: #E0B25F; --warn-wash: #2E2617;
   --on-mat: #0B1512;
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
 }
 
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--paper); color: var(--ink);
   font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
 }
-img { max-width: 100%; }
-.num { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace; font-variant-numeric: tabular-nums; }
-
-.wrap { max-width: 1180px; margin: 0 auto; padding: 28px 22px 0; }
+.num { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 940px; margin: 0 auto; padding: 34px 22px 0; }
 
 /* ---- Masthead ---- */
-.masthead {
-  display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px 28px;
-  padding-bottom: 20px; margin-bottom: 26px; border-bottom: 2px solid var(--ink);
-}
-.mast-id { flex: 1 1 340px; min-width: 0; }
-.eyebrow {
-  font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
-  letter-spacing: .16em; text-transform: uppercase;
-  color: var(--mat); font-weight: 600; margin: 0 0 8px;
-}
-h1 {
-  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-optical-sizing: auto;
-  font-weight: 800; font-size: clamp(30px, 4.6vw, 46px);
-  line-height: 1.02; letter-spacing: -.022em; margin: 0; text-wrap: balance;
-}
-.dek { margin: 12px 0 0; color: var(--ink-2); max-width: 56ch; font-size: 14.5px; }
-.mast-tools { display: flex; align-items: center; gap: 10px; padding-bottom: 4px; }
-
-button.ghost {
-  font: inherit; font-size: 12.5px; background: var(--panel); color: var(--ink-2);
-  border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 7px; transition: border-color .15s, color .15s;
-}
+.masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; padding-bottom: 22px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mat); font-weight: 600; margin: 0 0 9px; }
+h1 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-optical-sizing: auto; font-weight: 800; font-size: clamp(34px, 5.6vw, 54px); line-height: 1; letter-spacing: -.026em; margin: 0; text-wrap: balance; }
+.dek { margin: 14px 0 0; color: var(--ink-2); max-width: 54ch; font-size: 15.5px; }
+button.ghost { font: inherit; font-size: 12.5px; background: var(--panel); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: border-color .15s, color .15s; }
 button.ghost:hover { border-color: var(--mat); color: var(--mat); }
-button.ghost:focus-visible, input:focus-visible, select:focus-visible,
-button:focus-visible, a:focus-visible, summary:focus-visible {
-  outline: 2px solid var(--mat); outline-offset: 2px;
-}
+:is(a, button):focus-visible { outline: 2px solid var(--mat); outline-offset: 3px; }
 
-/* ---- Bench layout ---- */
-.bench { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 30px; align-items: start; }
-@media (max-width: 940px) { .bench { grid-template-columns: minmax(0,1fr); } }
-
-.stack { display: flex; flex-direction: column; gap: 22px; }
-.step { display: grid; grid-template-columns: 26px minmax(0,1fr); gap: 0 14px; }
-.step-mark {
-  position: relative; font-family: "IBM Plex Mono", monospace; font-size: 11px;
-  font-weight: 600; color: var(--mat); padding-top: 3px; letter-spacing: .04em;
-}
-.step:not(:last-child) .step-mark::after {
-  content: ""; position: absolute; left: 50%; top: 22px; bottom: -22px;
-  width: 1px; background: var(--line); transform: translateX(-50%);
-}
-.step-body { min-width: 0; }
-.step h2 {
-  font-family: "Bricolage Grotesque", system-ui, sans-serif;
-  font-size: 16px; font-weight: 700; letter-spacing: -.012em; margin: 0 0 2px;
-}
-.step .hint { margin: 0 0 12px; font-size: 12.5px; color: var(--ink-3); max-width: 52ch; }
-
-.field-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 130px; min-width: 0; }
-.field > label, .lbl {
-  font-family: "IBM Plex Mono", monospace; font-size: 10px;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 500;
-}
-.input-shell {
-  display: flex; align-items: center; background: var(--panel);
-  border: 1px solid var(--line); border-radius: 7px; padding: 0 9px; gap: 2px;
-  transition: border-color .15s;
-}
-.input-shell:focus-within { border-color: var(--mat); }
-.input-shell .affix { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-3); flex: none; }
-.input-shell input {
-  font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums;
-  font-size: 14px; color: var(--ink); background: none; border: 0;
-  padding: 8px 0; width: 100%; min-width: 0;
-}
-.input-shell input.text { font-family: "IBM Plex Sans", sans-serif; font-variant-numeric: normal; }
-.input-shell input:focus { outline: none; }
-input[type=number] { -moz-appearance: textfield; }
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-/* ---- Materials ledger ---- */
-.ledger { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow: hidden; }
-.ledger-head, .mat-row {
-  display: grid; grid-template-columns: minmax(0,1fr) 92px 78px 30px;
-  gap: 8px; align-items: center; padding: 7px 10px;
-}
-.ledger-head {
-  background: var(--panel-2); border-bottom: 1px solid var(--line);
-  font-family: "IBM Plex Mono", monospace; font-size: 9.5px;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3);
-}
-.ledger-head span:nth-child(2), .ledger-head span:nth-child(3) { text-align: right; }
-.mat-row + .mat-row { border-top: 1px solid var(--line-soft); }
-.mat-row input {
-  font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums;
-  font-size: 13px; color: var(--ink); background: none;
-  border: 1px solid transparent; border-radius: 5px; padding: 5px 6px; width: 100%; min-width: 0;
-}
-.mat-row input.name { font-family: "IBM Plex Sans", sans-serif; font-variant-numeric: normal; }
-.mat-row input.n { text-align: right; }
-.mat-row input:hover { border-color: var(--line); }
-.mat-row input:focus { outline: none; border-color: var(--mat); background: var(--paper); }
-.del { border: 0; background: none; cursor: pointer; color: var(--ink-3); font-size: 15px; line-height: 1; padding: 4px; border-radius: 5px; }
-.del:hover { color: var(--loss); background: var(--loss-wash); }
-.ledger-foot {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 10px; border-top: 1px solid var(--line); background: var(--panel-2);
-}
-.add-btn { font: inherit; font-size: 12px; color: var(--mat); background: none; border: 0; cursor: pointer; padding: 3px 0; font-weight: 500; }
-.add-btn:hover { text-decoration: underline; }
-.foot-total { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 600; }
-
-/* ---- Fee drawer ---- */
-details.fees { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
-details.fees > summary {
-  list-style: none; cursor: pointer; padding: 11px 13px; display: flex;
-  align-items: center; justify-content: space-between; gap: 10px; font-size: 13.5px; font-weight: 500;
-}
-details.fees > summary::-webkit-details-marker { display: none; }
-.chev { color: var(--ink-3); font-size: 11px; transition: transform .18s; }
-details.fees[open] .chev { transform: rotate(90deg); }
-.fees-body { padding: 0 13px 13px; display: flex; flex-direction: column; gap: 12px; }
-.preset-row { display: flex; flex-wrap: wrap; gap: 6px; }
-.preset {
-  font: inherit; font-size: 11.5px; cursor: pointer; background: var(--paper);
-  color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px;
-}
-.preset[aria-pressed="true"] { background: var(--mat); border-color: var(--mat); color: var(--on-mat); font-weight: 500; }
-.caveat { font-size: 11.5px; color: var(--ink-3); line-height: 1.45; border-left: 2px solid var(--warn); padding-left: 9px; margin: 0; }
-
-/* ---- Results ---- */
-.results { position: sticky; top: 18px; display: flex; flex-direction: column; gap: 16px; }
-@media (max-width: 940px) { .results { position: static; } }
-
-.verdict {
+/* ---- Featured tool: the cutting-mat grid, reserved for the live thing ---- */
+.feature {
+  display: block; text-decoration: none; color: inherit;
+  margin: 30px 0 0; padding: 28px 30px;
   border: 1px solid var(--line); border-radius: var(--radius);
   background:
     repeating-linear-gradient(0deg, transparent 0 27px, var(--line-soft) 27px 28px),
     repeating-linear-gradient(90deg, transparent 0 27px, var(--line-soft) 27px 28px),
     var(--panel);
-  padding: 20px; box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
+  transition: border-color .15s, transform .15s;
 }
-.verdict .lbl { display: block; margin-bottom: 6px; }
-.price-line { display: flex; align-items: baseline; gap: 4px; }
-.price-line .cur { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--ink-2); font-weight: 500; }
-.big-price {
-  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums;
-  font-size: clamp(46px, 7.4vw, 68px); font-weight: 800;
-  line-height: .92; letter-spacing: -.032em; color: var(--ink);
-}
-.price-sub { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 44ch; }
+.feature:hover { border-color: var(--mat); transform: translateY(-2px); }
+.feat-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip { font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--mat); color: var(--on-mat); }
+.chip.soon { background: var(--warn-wash); color: var(--warn); }
+.chip.plan { background: transparent; color: var(--ink-3); border: 1px dashed var(--line); }
+.feature h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: clamp(22px, 3vw, 28px); font-weight: 700; letter-spacing: -.018em; margin: 0 0 8px; }
+.feature p { margin: 0; color: var(--ink-2); max-width: 58ch; font-size: 14.5px; }
+.feat-points { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 22px; }
+.feat-points li { font-size: 13.5px; color: var(--ink-2); padding-left: 15px; position: relative; }
+.feat-points li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 1px; background: var(--mat); }
+.feat-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-weight: 600; color: var(--mat); font-size: 14.5px; }
+.feature:hover .feat-cta { gap: 12px; }
 
-.ladder { display: flex; flex-direction: column; margin-top: 18px; border-top: 1px solid var(--line); }
-.rung {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
-  padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px;
-}
-.rung:last-child { border-bottom: 0; }
-.rung .k { color: var(--ink-2); }
-.rung .k small { display: block; color: var(--ink-3); font-size: 11px; }
-.rung .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-weight: 500; }
+/* ---- Roadmap ---- */
+.section-head { margin: 54px 0 4px; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -.015em; }
+.section-sub { margin: 0 0 18px; color: var(--ink-3); font-size: 13.5px; max-width: 60ch; }
+.queue { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.queue-item { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 4px 18px; align-items: start; padding: 15px 0; border-bottom: 1px solid var(--line-soft); }
+@media (max-width: 560px) { .queue-item { grid-template-columns: minmax(0,1fr); } }
+.queue-item h3 { margin: 0 0 3px; font-size: 15px; font-weight: 600; }
+.queue-item p { margin: 0; color: var(--ink-2); font-size: 13.5px; max-width: 62ch; }
 
-.reality { border: 1px solid var(--line); border-left: 3px solid var(--mat); border-radius: var(--radius); background: var(--panel); padding: 16px 18px; }
-.reality.is-loss { border-left-color: var(--loss); }
-.reality.is-warn { border-left-color: var(--warn); }
-.reality-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.chip {
-  font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
-  text-transform: uppercase; font-weight: 600; padding: 3px 9px; border-radius: 999px;
-  background: var(--mat-wash); color: var(--mat-deep);
-}
-.chip.is-loss { background: var(--loss-wash); color: var(--loss); }
-.chip.is-warn { background: var(--warn-wash); color: var(--warn); }
-.reality-num {
-  font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums;
-  font-size: 30px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; margin: 10px 0 0;
-}
-.reality p { margin: 4px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 48ch; }
+/* ---- Principle ---- */
+.principle { margin: 54px 0 0; padding: 24px 26px; border-left: 3px solid var(--mat); background: var(--panel); border-radius: 0 var(--radius) var(--radius) 0; }
+.principle h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 19px; font-weight: 700; margin: 0 0 10px; letter-spacing: -.015em; }
+.principle p { margin: 0 0 12px; color: var(--ink-2); font-size: 14.5px; max-width: 64ch; }
+.principle p:last-child { margin: 0; }
+.formula { display: block; margin: 14px 0; padding: 13px 15px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 13px; overflow-x: auto; }
 
-.tester { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 16px 18px; }
-.tester-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-.tester h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 14.5px; font-weight: 700; margin: 0; }
-.tester .sub { font-size: 12px; color: var(--ink-3); margin: 2px 0 0; }
-.test-input { flex: 0 0 132px; }
-.test-input .input-shell input { font-size: 16px; font-weight: 600; }
-.use-rec { font: inherit; font-size: 11.5px; color: var(--mat); background: none; border: 0; cursor: pointer; padding: 3px 0 0; text-align: left; }
-.use-rec:hover { text-decoration: underline; }
-.use-rec[hidden] { display: none !important; }
-
-.flow-bar { display: flex; width: 100%; height: 30px; border-radius: 6px; overflow: hidden; background: var(--panel-2); border: 1px solid var(--line); }
-.flow-seg { min-width: 2px; transition: flex-grow .25s ease; }
-.flow-legend { display: flex; flex-direction: column; margin-top: 12px; }
-.leg {
-  display: grid; grid-template-columns: 9px minmax(0,1fr) auto auto; gap: 10px;
-  align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line-soft); font-size: 12.5px;
-}
-.leg:last-child { border-bottom: 0; }
-.swatch { width: 9px; height: 9px; border-radius: 2px; }
-.leg .lk { color: var(--ink-2); min-width: 0; }
-.leg .lv { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
-.leg .lp { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; color: var(--ink-3); font-size: 11.5px; width: 46px; text-align: right; }
-.leg.is-profit .lk, .leg.is-profit .lv { font-weight: 600; color: var(--ink); }
-.leg.is-shortfall .lk, .leg.is-shortfall .lv { color: var(--loss); font-weight: 600; }
-.shortfall-note { margin-top: 12px; padding: 9px 11px; border-radius: 7px; background: var(--loss-wash); color: var(--loss); font-size: 12.5px; line-height: 1.45; }
-
-/* ---- Upgrade band ---- */
-.upgrade {
-  margin: 56px 0 0; border: 1px solid var(--mat); border-radius: var(--radius);
-  background: var(--mat-wash); padding: 24px 26px;
-  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 20px 32px; align-items: center;
-}
-@media (max-width: 700px) { .upgrade { grid-template-columns: minmax(0,1fr); } }
-.upgrade h2 {
-  font-family: "Bricolage Grotesque", system-ui, sans-serif;
-  font-size: 21px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.015em;
-}
-.upgrade p { margin: 0; color: var(--ink-2); font-size: 13.5px; max-width: 52ch; }
-.upgrade ul { margin: 12px 0 0; padding: 0 0 0 17px; color: var(--ink-2); font-size: 13px; }
-.upgrade li { margin: 3px 0; }
-.buy {
-  display: inline-flex; align-items: center; gap: 9px; white-space: nowrap;
-  background: var(--mat); color: var(--on-mat); text-decoration: none;
-  font-weight: 600; font-size: 14.5px; padding: 13px 24px; border-radius: 8px;
-  border: 1px solid var(--mat); transition: transform .12s;
-}
-.buy:hover { transform: translateY(-1px); }
-.buy .price-tag { font-family: "IBM Plex Mono", monospace; opacity: .82; }
-/* Placeholder state until the product has a real purchase URL — never ship a dead link. */
-.buy.is-soon { background: transparent; color: var(--mat); border-style: dashed; cursor: default; }
-.buy.is-soon:hover { transform: none; }
-
-/* ---- Editorial ---- */
-.article { max-width: 68ch; margin: 60px auto 0; }
-.article h2 {
-  font-family: "Bricolage Grotesque", system-ui, sans-serif;
-  font-size: 25px; font-weight: 700; letter-spacing: -.018em;
-  margin: 44px 0 12px; text-wrap: balance;
-}
-.article h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 16.5px; font-weight: 700; margin: 26px 0 6px; }
-.article p { margin: 0 0 14px; color: var(--ink-2); font-size: 15px; line-height: 1.66; }
-.article strong { color: var(--ink); font-weight: 600; }
-.article em { color: var(--ink); font-style: italic; }
-
-.formula {
-  margin: 18px 0; padding: 16px 18px; border-radius: var(--radius);
-  border: 1px solid var(--line); background: var(--panel);
-  font-family: "IBM Plex Mono", monospace; font-size: 13.5px;
-  color: var(--ink); overflow-x: auto; line-height: 1.7;
-}
-.formula .cap {
-  display: block; font-family: "IBM Plex Sans", sans-serif; font-size: 11px;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px;
-}
-
-.faq { border-top: 1px solid var(--line); margin-top: 14px; }
-.faq details { border-bottom: 1px solid var(--line-soft); }
-.faq summary {
-  list-style: none; cursor: pointer; padding: 14px 26px 14px 0; position: relative;
-  font-weight: 600; font-size: 14.5px; color: var(--ink);
-}
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after {
-  content: "+"; position: absolute; right: 4px; top: 12px;
-  font-family: "IBM Plex Mono", monospace; color: var(--mat); font-size: 17px;
-}
-.faq details[open] summary::after { content: "−"; }
-.faq .ans { padding: 0 0 16px; color: var(--ink-2); font-size: 14px; line-height: 1.62; }
-.faq .ans p { margin: 0 0 10px; }
-.faq .ans p:last-child { margin: 0; }
-
-/* ---- Footer ---- */
-footer {
-  margin-top: 64px; border-top: 1px solid var(--line);
-  background: var(--panel-2);
-}
-.foot-in {
-  max-width: 1180px; margin: 0 auto; padding: 26px 22px 44px;
-  font-size: 11.5px; color: var(--ink-3); line-height: 1.6;
-}
-.foot-in a { color: var(--mat); }
+footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.foot-in { max-width: 940px; margin: 0 auto; padding: 24px 22px 44px; font-size: 11.5px; color: var(--ink-3); line-height: 1.6; }
 .foot-in p { max-width: 76ch; margin: 0 0 9px; }
-
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-@media print {
-  .mast-tools, .upgrade, .article, footer, details.fees { display: none !important; }
-  body { background: #fff; color: #000; }
-  .bench { grid-template-columns: 1fr 1fr; }
-}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
@@ -430,600 +125,95 @@ footer {
 <div class="wrap">
 
   <header class="masthead">
-    <div class="mast-id">
-      <p class="eyebrow">Cost stack &middot; fee inversion &middot; true hourly</p>
-      <h1>The Maker's Price&nbsp;Bench</h1>
-      <p class="dek">Most pricing calculators multiply your costs by four and call it a day. This one works backwards through the marketplace's fee stack to find the price that actually leaves you the profit you asked for &mdash; then tells you what you're really earning an hour. Free, nothing to install, and your numbers never leave your browser.</p>
+    <div>
+      <p class="eyebrow">Free tools &middot; nothing to install &middot; no account</p>
+      <h1>Maker Margins</h1>
+      <p class="dek">Business maths for people who make things. Small, sharp calculators for the numbers that decide whether a handmade product is worth making &mdash; and none of them ever send your figures anywhere.</p>
     </div>
-    <div class="mast-tools">
-      <button class="ghost" id="themeBtn" type="button" aria-label="Switch colour theme"><span id="themeIcon">◑</span> Theme</button>
-      <button class="ghost" id="resetBtn" type="button">Reset example</button>
-    </div>
+    <button class="ghost" id="themeBtn" type="button" aria-label="Switch colour theme"><span id="themeIcon">◑</span> Theme</button>
   </header>
 
-  <div class="bench">
+  <a class="feature" href="/pricing-calculator/">
+    <div class="feat-top">
+      <span class="chip">Live</span>
+      <span class="chip plan">Pricing</span>
+    </div>
+    <h2>The Maker's Price Bench</h2>
+    <p>Work out what to charge after the marketplace takes its cut. Instead of multiplying your costs by four and hoping, it solves backwards through the whole fee stack to find the price that actually leaves you the profit you asked for.</p>
+    <ul class="feat-points">
+      <li>Solves for price from your target profit, not the other way round</li>
+      <li>Shows what your hands-on time is really earning per hour</li>
+      <li>Catches the gap between postage charged and postage paid</li>
+      <li>Fee presets for Etsy US &amp; UK, Shopify and craft fairs</li>
+    </ul>
+    <span class="feat-cta">Open the calculator &rarr;</span>
+  </a>
 
-    <form class="stack" id="form" autocomplete="off" onsubmit="return false">
+  <h2 class="section-head">What's being built next</h2>
+  <p class="section-sub">Listed in the order they're coming. Nothing here is a link yet &mdash; when one goes live it moves up to the top of the page.</p>
 
-      <section class="step">
-        <div class="step-mark">01</div>
-        <div class="step-body">
-          <h2>What you're making</h2>
-          <p class="hint">The example below is an 8&nbsp;oz hand-poured soy candle. Overwrite it with your own.</p>
-          <div class="field">
-            <label for="prodName">Product</label>
-            <div class="input-shell"><input class="text" type="text" id="prodName" value="8 oz soy candle — amber jar"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="step">
-        <div class="step-mark">02</div>
-        <div class="step-body">
-          <h2>Materials</h2>
-          <p class="hint">Everything consumed by one finished piece &mdash; including packaging, labels and the box it ships in. These are the costs makers most often leave out.</p>
-          <div class="ledger">
-            <div class="ledger-head"><span>Item</span><span>Unit cost</span><span>Qty</span><span></span></div>
-            <div id="matRows"></div>
-            <div class="ledger-foot">
-              <button class="add-btn" type="button" id="addMat">+ Add material</button>
-              <span class="foot-total">Materials <span class="num" id="matTotal">$0.00</span></span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="step">
-        <div class="step-mark">03</div>
-        <div class="step-body">
-          <h2>Your labour</h2>
-          <p class="hint">Minutes of hands-on work per piece, at the rate you want to be paid. If you batch, divide the batch time by the number of pieces.</p>
-          <div class="field-row">
-            <div class="field">
-              <label for="mins">Minutes per piece</label>
-              <div class="input-shell"><input type="number" id="mins" value="20" min="0" step="1"><span class="affix">min</span></div>
-            </div>
-            <div class="field">
-              <label for="rate">Your hourly rate</label>
-              <div class="input-shell"><span class="affix">$</span><input type="number" id="rate" value="22" min="0" step="0.5"><span class="affix">/hr</span></div>
-            </div>
-            <div class="field">
-              <label for="overhead">Overhead per piece</label>
-              <div class="input-shell"><span class="affix">$</span><input type="number" id="overhead" value="0.85" min="0" step="0.05"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="step">
-        <div class="step-mark">04</div>
-        <div class="step-body">
-          <h2>Shipping</h2>
-          <p class="hint">What the buyer pays versus what postage and the mailer actually cost you. The gap here is where "free shipping" quietly eats a margin.</p>
-          <div class="field-row">
-            <div class="field">
-              <label for="shipCharge">Charged to buyer</label>
-              <div class="input-shell"><span class="affix">$</span><input type="number" id="shipCharge" value="6.50" min="0" step="0.25"></div>
-            </div>
-            <div class="field">
-              <label for="shipCost">Actually costs you</label>
-              <div class="input-shell"><span class="affix">$</span><input type="number" id="shipCost" value="8.20" min="0" step="0.25"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="step">
-        <div class="step-mark">05</div>
-        <div class="step-body">
-          <h2>Marketplace fees</h2>
-          <p class="hint">Percentage fees are charged on the whole order &mdash; item price plus shipping &mdash; which is why they cost more than sellers expect.</p>
-          <details class="fees">
-            <summary><span>Fee profile: <strong id="feeProfileName">Etsy · US</strong></span><span class="chev">›</span></summary>
-            <div class="fees-body">
-              <div class="preset-row" id="presets">
-                <button class="preset" type="button" data-preset="etsy-us" aria-pressed="true">Etsy · US</button>
-                <button class="preset" type="button" data-preset="etsy-uk" aria-pressed="false">Etsy · UK</button>
-                <button class="preset" type="button" data-preset="shopify" aria-pressed="false">Own shop (Shopify)</button>
-                <button class="preset" type="button" data-preset="none" aria-pressed="false">Direct / craft fair</button>
-              </div>
-              <div class="field-row">
-                <div class="field">
-                  <label for="txFee">Transaction fee</label>
-                  <div class="input-shell"><input type="number" id="txFee" value="6.5" min="0" step="0.1"><span class="affix">%</span></div>
-                </div>
-                <div class="field">
-                  <label for="procPct">Processing</label>
-                  <div class="input-shell"><input type="number" id="procPct" value="3" min="0" step="0.1"><span class="affix">%</span></div>
-                </div>
-                <div class="field">
-                  <label for="procFlat">Per order</label>
-                  <div class="input-shell"><span class="affix">$</span><input type="number" id="procFlat" value="0.25" min="0" step="0.05"></div>
-                </div>
-              </div>
-              <div class="field-row">
-                <div class="field">
-                  <label for="listFee">Listing fee</label>
-                  <div class="input-shell"><span class="affix">$</span><input type="number" id="listFee" value="0.20" min="0" step="0.05"></div>
-                </div>
-                <div class="field">
-                  <label for="adsPct">Ads, blended</label>
-                  <div class="input-shell"><input type="number" id="adsPct" value="2" min="0" step="0.5"><span class="affix">%</span></div>
-                </div>
-              </div>
-              <p class="caveat"><strong>Blended ads</strong> spreads offsite-ad fees across all your orders. Etsy charges 15% (or 12% over $10k/yr) on ad-attributed sales only &mdash; so if roughly 1 order in 7 arrives that way, a blended 2% is about right.</p>
-              <p class="caveat">Fee rates change and vary by country. Check the numbers against your own seller account before you price a real product on them.</p>
-            </div>
-          </details>
-        </div>
-      </section>
-
-      <section class="step">
-        <div class="step-mark">06</div>
-        <div class="step-body">
-          <h2>What you want to clear</h2>
-          <p class="hint">Profit left over <em>after</em> materials, your paid labour, overhead, shipping and every fee. This is the number the price is solved for.</p>
-          <div class="field-row">
-            <div class="field">
-              <label for="targetProfit">Target profit per piece</label>
-              <div class="input-shell"><span class="affix">$</span><input type="number" id="targetProfit" value="6.00" min="0" step="0.5"></div>
-            </div>
-            <div class="field">
-              <label for="wholesaleMult">Wholesale multiplier</label>
-              <div class="input-shell"><input type="number" id="wholesaleMult" value="2" min="1" step="0.1"><span class="affix">×&nbsp;cost</span></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </form>
-
-    <div class="results">
-
-      <section class="verdict">
-        <span class="lbl">List this piece at</span>
-        <div class="price-line"><span class="cur">$</span><span class="big-price num" id="recPrice">0.00</span></div>
-        <p class="price-sub" id="recSub"></p>
-        <div class="ladder">
-          <div class="rung">
-            <span class="k">True cost to make<small>Materials + labour + overhead</small></span>
-            <span class="v num" id="ladCost">$0.00</span>
-          </div>
-          <div class="rung">
-            <span class="k">Wholesale floor<small id="ladWholesaleNote">2× true cost</small></span>
-            <span class="v num" id="ladWholesale">$0.00</span>
-          </div>
-          <div class="rung">
-            <span class="k">Traditional keystone retail<small>2× wholesale — ignores all fees</small></span>
-            <span class="v num" id="ladKeystone">$0.00</span>
-          </div>
-          <div class="rung">
-            <span class="k">Fee-adjusted price<small>Solved backwards from your target</small></span>
-            <span class="v num" id="ladSolved">$0.00</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="reality" id="reality">
-        <div class="reality-top">
-          <span class="lbl">Reality check</span>
-          <span class="chip" id="healthChip">—</span>
-        </div>
-        <p class="reality-num num" id="trueHourly">$0.00 / hr</p>
-        <p id="realityMsg"></p>
-      </section>
-
-      <section class="tester">
-        <div class="tester-head">
-          <div>
-            <h3>What you charge now</h3>
-            <p class="sub">Where every dollar of one order actually goes.</p>
-          </div>
-          <div class="field test-input">
-            <label class="lbl" for="testPrice">Your list price</label>
-            <div class="input-shell"><span class="affix">$</span><input type="number" id="testPrice" value="18.00" min="0" step="0.25"></div>
-            <button class="use-rec" type="button" id="useRec">Use recommended price</button>
-          </div>
-        </div>
-        <div class="flow">
-          <div class="flow-bar" id="flowBar" role="img" aria-label="Breakdown of where the order total goes"></div>
-          <div class="flow-legend" id="flowLegend"></div>
-          <div id="shortfallNote"></div>
-        </div>
-      </section>
-
+  <div class="queue">
+    <div class="queue-item">
+      <span class="chip soon">Next</span>
+      <div>
+        <h3>Etsy fee calculator</h3>
+        <p>Paste in a sale price and see exactly what Etsy keeps and what reaches your bank &mdash; listing fee, transaction fee, payment processing and offsite ads, each broken out separately.</p>
+      </div>
+    </div>
+    <div class="queue-item">
+      <span class="chip plan">Planned</span>
+      <div>
+        <h3>Shipping profit checker</h3>
+        <p>Whether the postage you charge covers the postage you pay, once packaging and the marketplace's cut of the shipping charge are counted.</p>
+      </div>
+    </div>
+    <div class="queue-item">
+      <span class="chip plan">Planned</span>
+      <div>
+        <h3>Discount and sale calculator</h3>
+        <p>What a 20% off code actually does to your margin. Most sellers run sales without ever checking whether the discounted price still clears costs.</p>
+      </div>
+    </div>
+    <div class="queue-item">
+      <span class="chip plan">Planned</span>
+      <div>
+        <h3>Craft fair breakeven</h3>
+        <p>Booth fee, travel, stock and the hours you'll stand there &mdash; how much you need to sell before the day is worth doing.</p>
+      </div>
     </div>
   </div>
 
-  <!-- ---------- Upgrade ---------- -->
-  <section class="upgrade">
-    <div>
-      <h2>Pricing more than one thing?</h2>
-      <p>The free bench holds one product at a time. The full version keeps your whole catalogue on the bench at once &mdash; and it's a single file you own outright, not a subscription.</p>
-      <ul>
-        <li>Save unlimited products and switch between them instantly</li>
-        <li>Catalogue view ranking every product by true hourly rate, so you can see which ones are quietly costing you money</li>
-        <li>Reusable material library &mdash; enter a supply cost once, use it everywhere</li>
-        <li>Export to CSV for your bookkeeping, and print a clean one-page cost sheet per product</li>
-        <li>Works offline, forever. No account, no cloud, no monthly fee.</li>
-      </ul>
-    </div>
-    <!-- Swap this back to <a class="buy" href="YOUR-GUMROAD-URL"> once the product is listed. -->
-    <span class="buy is-soon" aria-disabled="true">Full version coming soon <span class="price-tag">$12</span></span>
+  <section class="principle">
+    <h2>The one idea behind all of these</h2>
+    <p>Marketplace fees are charged on the <em>order total</em> &mdash; the item plus the shipping the buyer paid. That single fact breaks the arithmetic most sellers use, because raising your price to cover a fee also raises the fee.</p>
+    <p>If fees come to 11% and you want to clear $30, pricing at $30 plus 11% leaves you short every time. The fee lands on the higher number, not the one you started from. Netting a target after a percentage is taken out means dividing, not multiplying:</p>
+    <code class="formula">order total = (what you want to clear + costs) &divide; (1 &minus; fee rate)</code>
+    <p>Every tool here runs that calculation properly. It's not complicated maths, but getting it backwards is the single most common reason a handmade product that looks profitable isn't.</p>
   </section>
 
-  <!-- ---------- Editorial ---------- -->
-  <article class="article">
-
-    <h2>Why the standard handmade pricing formula leaves you underpaid</h2>
-
-    <p>Almost every guide to pricing handmade goods lands on the same formula: add up your materials, add your labour, add a bit for overhead, then double it for wholesale and double it again for retail. It's called <strong>keystone pricing</strong>, it comes from traditional retail, and as a starting point it's fine.</p>
-
-    <p>The trouble is what it leaves out. Keystone assumes you keep the retail price. On a marketplace you don't &mdash; and the gap between what the buyer pays and what lands in your account is wider than most sellers realise, for two reasons that compound.</p>
-
-    <h3>Fees are charged on the order, not the item</h3>
-
-    <p>Etsy's transaction fee and payment processing both apply to the <em>whole order total</em>, which includes the shipping the buyer paid. If you sell a $25 item with $7 shipping, the percentage fees are calculated on $32, not $25. Sellers who mentally apply the fee to the item price alone consistently undershoot.</p>
-
-    <h3>You cannot simply add fees on top</h3>
-
-    <p>This is the mistake that costs the most, and it's a genuinely counterintuitive one. Suppose fees come to 11% and you want to clear $30. It's tempting to price at $30 plus 11%, or $33.30. But the fee is charged on $33.30, not on $30 &mdash; so it takes $3.66, and you're left with $29.64. You're short, and you'll be short every single time.</p>
-
-    <p>The fix is division, not multiplication. To net an amount after a percentage is taken out, you divide by one minus that percentage:</p>
-
-    <div class="formula">
-      <span class="cap">Solving backwards through the fee stack</span>
-      order total = (target profit + flat fees + shipping cost + true cost) ÷ (1 − combined fee rate)<br>
-      item price&nbsp;&nbsp;= order total − shipping charged to buyer
-    </div>
-
-    <p>That single change is the difference between a price that <em>looks</em> like it clears your target and one that actually does. It's the calculation this tool runs on every keystroke.</p>
-
-    <h2>The number that matters more than margin</h2>
-
-    <p>Margin percentages are easy to feel good about and hard to act on. The figure that changes behaviour is your <strong>true hourly rate</strong>: take the profit an order leaves you, add back the labour you paid yourself on paper, and divide by the hands-on minutes the piece actually took.</p>
-
-    <p>Run that number on your best-selling product and it is frequently sobering. Plenty of makers discover that their most popular item &mdash; the one they can barely keep in stock &mdash; is the one earning them the least per hour, because it's fiddly to assemble and priced where it was three years ago when materials were cheaper.</p>
-
-    <p>That's usually the point at which the fix becomes obvious, and it's rarely "work harder". It's raise the price, simplify the build, batch it differently, or retire it and put the bench time into something that pays.</p>
-
-    <h2>Where the money actually goes</h2>
-
-    <p>The bar above the fold on this page splits a single order into the six places its money ends up: materials, your labour, overhead, real shipping cost, marketplace fees, and whatever's left. Most sellers have never seen their own product broken down that way, and the proportions are usually not where they'd have guessed.</p>
-
-    <p>Two patterns show up constantly. The first is <strong>shipping drift</strong> &mdash; postage went up, the listing didn't, and every order now carries a small loss that's invisible because it's buried in a number that still looks like a profit. The second is <strong>packaging creep</strong>: the branded box, the tissue, the sticker, the thank-you card. Individually trivial, collectively often more than the raw materials.</p>
-
-    <h2>Common questions</h2>
-
-    <div class="faq">
-      <details>
-        <summary>How much does Etsy actually take per sale?</summary>
-        <div class="ans">
-          <p>In the US, the stack is a $0.20 listing fee, a 6.5% transaction fee on the full order total including shipping, and payment processing of roughly 3% plus $0.25. Offsite Ads add 12–15% on ad-attributed orders only.</p>
-          <p>Rates change and differ by country, so treat the presets here as a starting point and check them against your own seller dashboard. Every field in the fee panel is editable for exactly that reason.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Should I offer free shipping?</summary>
-        <div class="ans">
-          <p>It costs you nothing extra in fees &mdash; as long as you raise the item price by exactly what postage costs you. Etsy's percentage fees are charged on the order total, and the order total is identical whether the buyer pays $25 plus $6.50 postage or a flat $31.50. Set shipping charged to $0 in the tool and watch the recommended price rise by precisely your postage cost, with the fee unchanged.</p>
-          <p>So the fee argument against free shipping is a myth. The real danger is simpler and much more common: offering free shipping <em>without</em> raising the price. That turns your entire postage bill into a direct loss on every order, and because the listing still shows a profit on paper, it can run for years unnoticed.</p>
-        </div>
-      </details>
-      <details>
-        <summary>What should I use as my hourly rate?</summary>
-        <div class="ans">
-          <p>What you'd have to pay someone else to do the work to your standard &mdash; not what feels modest. If you'd never hire at $8/hr, don't price yourself there. A useful floor is your local minimum wage plus the payroll costs an employer would carry on top; a realistic figure for skilled craft work sits well above that.</p>
-        </div>
-      </details>
-      <details>
-        <summary>What counts as overhead per piece?</summary>
-        <div class="ans">
-          <p>Everything you pay for whether or not you make a sale, divided across the pieces you actually make. Studio rent or the heated corner of the garage, tool wear and replacement, software, insurance, listing renewals on items that didn't sell, the batch you ruined. Add up a month of it, divide by a month of output, and use that.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Are my numbers stored anywhere?</summary>
-        <div class="ans">
-          <p>No. Everything runs in your browser and nothing is sent anywhere &mdash; there's no account, no analytics on your inputs, and no server holding your costs. Close the tab and it's gone.</p>
-        </div>
-      </details>
-    </div>
-
-  </article>
 </div>
 
 <footer>
   <div class="foot-in">
-    <p><strong>The Maker's Price Bench</strong> &mdash; a free pricing calculator for handmade sellers.</p>
-    <p>This tool provides general business calculations, not financial, accounting, tax or legal advice. Sales tax, VAT, income tax, currency conversion, refunds and returns are not modelled. Marketplace fee rates change frequently and vary by country &mdash; verify current rates against your own seller account before pricing real products.</p>
-    <p>No data leaves your browser.</p>
+    <p><strong>Maker Margins</strong> &mdash; free business calculators for handmade sellers.</p>
+    <p>These tools provide general business calculations, not financial, accounting, tax or legal advice. Sales tax, VAT, income tax, currency conversion, refunds and returns are not modelled. Marketplace fee rates change frequently and vary by country &mdash; verify current rates against your own seller account before pricing real products.</p>
+    <p>Everything runs in your browser. No account, no tracking of your figures, nothing uploaded.</p>
   </div>
 </footer>
 
 <script>
 (function () {
   "use strict";
-
-  var DEFAULT_MATERIALS = [
-    { name: "Soy wax (8 oz)",         unit: 1.60, qty: 1 },
-    { name: "Fragrance oil (0.5 oz)", unit: 1.85, qty: 1 },
-    { name: "Wick + adhesive tab",    unit: 0.22, qty: 1 },
-    { name: "Amber glass jar, 8 oz",  unit: 2.40, qty: 1 },
-    { name: "Bamboo lid",             unit: 0.65, qty: 1 },
-    { name: "Printed label",          unit: 0.18, qty: 2 },
-    { name: "Shipper box + wrap",     unit: 0.95, qty: 1 }
-  ];
-
-  var PRESETS = {
-    "etsy-us": { name: "Etsy · US",          txFee: 6.5, procPct: 3,   procFlat: 0.25, listFee: 0.20, adsPct: 2 },
-    "etsy-uk": { name: "Etsy · UK",          txFee: 6.5, procPct: 4,   procFlat: 0.20, listFee: 0.16, adsPct: 2 },
-    "shopify": { name: "Own shop (Shopify)", txFee: 0,   procPct: 2.9, procFlat: 0.30, listFee: 0,    adsPct: 4 },
-    "none":    { name: "Direct / craft fair",txFee: 0,   procPct: 0,   procFlat: 0,    listFee: 0,    adsPct: 0 }
-  };
-
-  var materials = [];
-  /* The example opens at a real-world list price rather than the recommendation,
-     so the first thing a visitor sees is the tool finding an actual problem. */
-  var priceTouched = true;
-
-  var $ = function (id) { return document.getElementById(id); };
-  var money = function (n) {
-    if (!isFinite(n)) { n = 0; }
-    return (n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2);
-  };
-  var numOf = function (id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; };
-
-  function renderMaterials() {
-    var host = $("matRows");
-    host.textContent = "";
-    materials.forEach(function (m, i) {
-      var row = document.createElement("div");
-      row.className = "mat-row";
-
-      var name = document.createElement("input");
-      name.type = "text"; name.className = "name"; name.value = m.name;
-      name.setAttribute("aria-label", "Material name");
-      name.addEventListener("input", function () { materials[i].name = name.value; });
-
-      var unit = document.createElement("input");
-      unit.type = "number"; unit.className = "n"; unit.step = "0.01"; unit.min = "0"; unit.value = m.unit;
-      unit.setAttribute("aria-label", "Unit cost");
-      unit.addEventListener("input", function () {
-        var v = parseFloat(unit.value); materials[i].unit = isFinite(v) ? v : 0; compute();
-      });
-
-      var qty = document.createElement("input");
-      qty.type = "number"; qty.className = "n"; qty.step = "1"; qty.min = "0"; qty.value = m.qty;
-      qty.setAttribute("aria-label", "Quantity");
-      qty.addEventListener("input", function () {
-        var v = parseFloat(qty.value); materials[i].qty = isFinite(v) ? v : 0; compute();
-      });
-
-      var del = document.createElement("button");
-      del.type = "button"; del.className = "del"; del.innerHTML = "&times;";
-      del.setAttribute("aria-label", "Remove " + (m.name || "material"));
-      del.addEventListener("click", function () { materials.splice(i, 1); renderMaterials(); compute(); });
-
-      row.appendChild(name); row.appendChild(unit); row.appendChild(qty); row.appendChild(del);
-      host.appendChild(row);
-    });
-  }
-
-  function materialsTotal() {
-    return materials.reduce(function (s, m) { return s + (m.unit || 0) * (m.qty || 0); }, 0);
-  }
-
-  function compute() {
-    var mats     = materialsTotal();
-    var mins     = numOf("mins");
-    var rate     = numOf("rate");
-    var labour   = (mins / 60) * rate;
-    var overhead = numOf("overhead");
-    var trueCost = mats + labour + overhead;
-
-    var shipCharge = numOf("shipCharge");
-    var shipCost   = numOf("shipCost");
-
-    var kPct = numOf("txFee") + numOf("procPct") + numOf("adsPct");
-    var k    = kPct / 100;
-    var flat = numOf("procFlat") + numOf("listFee");
-
-    var target = numOf("targetProfit");
-    var wsMult = numOf("wholesaleMult") || 1;
-
-    var solvedPrice;
-    if (k >= 1) {
-      solvedPrice = Infinity;
-    } else {
-      solvedPrice = ((target + flat + shipCost + trueCost) / (1 - k)) - shipCharge;
-    }
-    var recommended = Math.max(0, solvedPrice);
-
-    $("matTotal").textContent      = money(mats);
-    $("ladCost").textContent       = money(trueCost);
-    $("ladWholesale").textContent  = money(trueCost * wsMult);
-    $("ladWholesaleNote").textContent = (wsMult % 1 === 0 ? wsMult : wsMult.toFixed(1)) + "× true cost";
-    $("ladKeystone").textContent   = money(trueCost * wsMult * 2);
-    $("ladSolved").textContent     = isFinite(solvedPrice) ? money(solvedPrice) : "—";
-    $("recPrice").textContent      = isFinite(recommended) ? recommended.toFixed(2) : "—";
-
-    var shipGap = shipCost - shipCharge;
-    $("recSub").textContent = isFinite(solvedPrice)
-      ? "Nets you " + money(target) + " per piece after " + kPct.toFixed(1) + "% in order fees, "
-        + money(flat) + " in flat fees, and a " + money(Math.abs(shipGap))
-        + (shipGap >= 0 ? " shipping shortfall." : " shipping surplus.")
-      : "Your fee percentages add up to 100% or more — no price can turn a profit.";
-
-    if (!priceTouched) { $("testPrice").value = isFinite(recommended) ? recommended.toFixed(2) : "0"; }
-
-    evaluate(trueCost, mats, labour, overhead, shipCharge, shipCost, k, flat, mins, rate);
-  }
-
-  function evaluate(trueCost, mats, labour, overhead, shipCharge, shipCost, k, flat, mins, rate) {
-    var price      = numOf("testPrice");
-    var orderTotal = price + shipCharge;
-    var fees       = orderTotal * k + flat;
-    var profit     = orderTotal - fees - shipCost - trueCost;
-
-    var hours      = mins / 60;
-    var trueHourly = hours > 0 ? (labour + profit) / hours : 0;
-    var margin     = orderTotal > 0 ? (profit / orderTotal) * 100 : 0;
-
-    var realityEl = $("reality"), chip = $("healthChip");
-    realityEl.classList.remove("is-loss", "is-warn");
-    chip.classList.remove("is-loss", "is-warn");
-
-    /* Band on the true hourly rate, not the sign of profit. Your wage is already
-       counted as a cost, so a small negative profit still leaves real money on the
-       table — calling that "losing money" would overstate it. */
-    var msg;
-    var isLoss  = hours > 0 ? (trueHourly < 0) : (profit < 0);
-    var isUnder = hours > 0 && !isLoss && trueHourly < rate;
-
-    if (isLoss) {
-      realityEl.classList.add("is-loss"); chip.classList.add("is-loss");
-      chip.textContent = "Losing money";
-      msg = hours > 0
-        ? "At " + money(price) + " this order doesn't cover its own costs even if you work for free. "
-          + "You're " + money(-(labour + profit)) + " short on every sale — you are paying to make this."
-        : "At " + money(price) + " you lose " + money(-profit) + " on every sale. Every order makes the hole deeper.";
-    } else if (isUnder) {
-      realityEl.classList.add("is-warn"); chip.classList.add("is-warn");
-      chip.textContent = "Underpaid";
-      msg = profit < 0
-        ? "This order leaves nothing over, so your hands-on time is worth only " + money(trueHourly)
-          + "/hr — well under the " + money(rate) + "/hr you set. The shortfall is coming straight out of your wages."
-        : "You clear " + money(profit) + " a piece, but your hands-on time is earning " + money(trueHourly)
-          + "/hr — under the " + money(rate) + "/hr you asked for. The price is subsidised by your own labour.";
-    } else if (hours > 0) {
-      chip.textContent = "Healthy";
-      msg = "You clear " + money(profit) + " a piece — a " + margin.toFixed(1)
-          + "% margin on the order — and your time is earning " + money(trueHourly)
-          + "/hr, above the " + money(rate) + "/hr you asked for.";
-    } else {
-      chip.textContent = "No labour set";
-      msg = "Add minutes per piece in step 03 to see your true hourly rate.";
-    }
-
-    $("trueHourly").textContent = hours > 0 ? money(trueHourly) + " / hr" : money(profit) + " profit";
-    $("realityMsg").textContent = msg;
-
-    drawFlow(orderTotal, mats, labour, overhead, shipCost, fees, profit);
-  }
-
-  function drawFlow(orderTotal, mats, labour, overhead, shipCost, fees, profit) {
-    var segs = [
-      { key: "Materials",        val: mats,     color: "var(--seg-mat)" },
-      { key: "Your labour",      val: labour,   color: "var(--seg-lab)" },
-      { key: "Overhead",         val: overhead, color: "var(--seg-ovh)" },
-      { key: "Shipping cost",    val: shipCost, color: "var(--seg-ship)" },
-      { key: "Marketplace fees", val: fees,     color: "var(--seg-fee)" }
-    ];
-
-    var bar = $("flowBar"), legend = $("flowLegend");
-    bar.textContent = ""; legend.textContent = "";
-
-    var outgoings = segs.reduce(function (s, x) { return s + Math.max(0, x.val); }, 0);
-    var denom = Math.max(orderTotal, outgoings, 0.01);
-
-    var drawn = segs.slice();
-    if (profit >= 0) { drawn.push({ key: "Your profit", val: profit, color: "var(--seg-profit)", profit: true }); }
-
-    drawn.forEach(function (s) {
-      if (s.val <= 0) { return; }
-      var el = document.createElement("div");
-      el.className = "flow-seg";
-      el.style.background = s.color;
-      el.style.flex = (s.val / denom) + " 0 0";
-      el.title = s.key + " " + money(s.val);
-      bar.appendChild(el);
-    });
-
-    var rows = drawn.slice();
-    if (profit < 0) { rows.push({ key: "Shortfall", val: profit, shortfall: true }); }
-
-    rows.forEach(function (s) {
-      var row = document.createElement("div");
-      row.className = "leg" + (s.profit ? " is-profit" : "") + (s.shortfall ? " is-shortfall" : "");
-      var sw = document.createElement("span");
-      sw.className = "swatch";
-      if (s.shortfall) { sw.style.border = "1px solid var(--loss)"; }
-      else { sw.style.background = s.color; }
-      var k = document.createElement("span"); k.className = "lk"; k.textContent = s.key;
-      var v = document.createElement("span"); v.className = "lv"; v.textContent = money(s.val);
-      var p = document.createElement("span"); p.className = "lp";
-      p.textContent = orderTotal > 0 ? (Math.abs(s.val) / orderTotal * 100).toFixed(0) + "%" : "—";
-      row.appendChild(sw); row.appendChild(k); row.appendChild(v); row.appendChild(p);
-      legend.appendChild(row);
-    });
-
-    var note = $("shortfallNote");
-    note.textContent = "";
-    if (profit < 0) {
-      var d = document.createElement("div");
-      d.className = "shortfall-note";
-      d.textContent = "The buyer pays " + money(orderTotal) + ", but this order costs you "
-                    + money(outgoings) + " to fulfil. You're " + money(-profit) + " short.";
-      note.appendChild(d);
-    }
-  }
-
-  ["prodName","mins","rate","overhead","shipCharge","shipCost","txFee","procPct",
-   "procFlat","listFee","adsPct","targetProfit","wholesaleMult"].forEach(function (id) {
-    $(id).addEventListener("input", compute);
-  });
-
-  $("testPrice").addEventListener("input", function () { priceTouched = true; compute(); });
-
-  $("useRec").addEventListener("click", function () { priceTouched = false; compute(); });
-
-  $("addMat").addEventListener("click", function () {
-    materials.push({ name: "", unit: 0, qty: 1 });
-    renderMaterials(); compute();
-    var rows = $("matRows").querySelectorAll(".mat-row input.name");
-    if (rows.length) { rows[rows.length - 1].focus(); }
-  });
-
-  $("presets").addEventListener("click", function (e) {
-    var btn = e.target.closest(".preset");
-    if (!btn) { return; }
-    var p = PRESETS[btn.dataset.preset];
-    if (!p) { return; }
-    Array.prototype.forEach.call(this.querySelectorAll(".preset"), function (b) {
-      b.setAttribute("aria-pressed", String(b === btn));
-    });
-    $("feeProfileName").textContent = p.name;
-    $("txFee").value = p.txFee; $("procPct").value = p.procPct; $("procFlat").value = p.procFlat;
-    $("listFee").value = p.listFee; $("adsPct").value = p.adsPct;
-    compute();
-  });
-
-  $("resetBtn").addEventListener("click", function () {
-    materials = DEFAULT_MATERIALS.map(function (m) { return { name: m.name, unit: m.unit, qty: m.qty }; });
-    priceTouched = true;
-    $("testPrice").value = "18.00";
-    $("prodName").value = "8 oz soy candle — amber jar";
-    $("mins").value = 20; $("rate").value = 22; $("overhead").value = 0.85;
-    $("shipCharge").value = 6.50; $("shipCost").value = 8.20;
-    $("targetProfit").value = 6.00; $("wholesaleMult").value = 2;
-    var etsy = $("presets").querySelector('[data-preset="etsy-us"]');
-    if (etsy) { etsy.click(); }
-    renderMaterials(); compute();
-  });
-
-  $("themeBtn").addEventListener("click", function () {
+  var btn = document.getElementById("themeBtn");
+  var icon = document.getElementById("themeIcon");
+  btn.addEventListener("click", function () {
     var root = document.documentElement;
     var cur = root.getAttribute("data-theme");
     var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     var next = cur === "dark" ? "light" : cur === "light" ? "dark" : (systemDark ? "light" : "dark");
     root.setAttribute("data-theme", next);
-    $("themeIcon").textContent = next === "dark" ? "◐" : "◑";
+    icon.textContent = next === "dark" ? "◐" : "◑";
   });
-
-  materials = DEFAULT_MATERIALS.map(function (m) { return { name: m.name, unit: m.unit, qty: m.qty }; });
-  renderMaterials();
-  compute();
 })();
 </script>
 </body>
