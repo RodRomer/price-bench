@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Discount Calculator — What a Sale Really Costs You | Maker Margins</title>
+<meta name="description" content="Free discount calculator for handmade sellers. See what a 20% off code does to your profit, how many extra sales it takes to break even, and the biggest discount you can safely run.">
+<link rel="canonical" href="https://makermargins.com/discount-calculator/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Discount Calculator — what a sale really costs you">
+<meta property="og:description" content="A 20% discount rarely costs 20% of your profit. See the real number, and how many extra sales it takes to stand still.">
+<meta property="og:url" content="https://makermargins.com/discount-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316715B'/><path d='M30 70V30h10v32h22v8z' fill='%23fff'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Discount Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "description": "Shows what a discount does to a handmade seller's profit and how many extra sales are needed to break even.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does a 20% discount actually cost me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Far more than 20% of your profit. The discount comes off the price, but your materials, labour, packaging and postage cost exactly the same. So the whole discount is taken out of the profit margin alone. On a product with a 20% profit margin, a 20% discount can remove nearly all of the profit rather than a fifth of it." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many extra sales do I need to break even on a sale?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Divide your profit per unit at full price by your profit per unit at the discounted price. If a 20% discount cuts profit per sale from $5.67 to $0.72, you need roughly eight times the sales volume to earn the same money — not 20% more." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the biggest discount I can safely offer?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The point where the discounted price still covers your costs and every marketplace fee. Beyond it you pay for the privilege of making a sale. It is usually a much smaller number than sellers expect, because fees and shipping shortfalls are charged whether or not the item was discounted." }
+    }
+  ]
+}
+</script>
+
+<style>
+:root {
+  color-scheme: light;
+  --paper: #F2F4F1; --panel: #FBFCFA; --panel-2: #EAEEE9;
+  --line: #D3DAD2; --line-soft: #E2E7E0;
+  --ink: #14201C; --ink-2: #46564F; --ink-3: #6F7F77;
+  --mat: #16715B; --mat-deep: #0E4E3F; --mat-wash: #DCEBE5;
+  --loss: #A9382A; --loss-wash: #F6E2DE; --warn: #8A5B12; --warn-wash: #F6EBD8;
+  --seg-cost: #7C8F86; --seg-ship: #B3803C; --seg-fee: #A9382A; --seg-profit: #16715B;
+  --on-mat: #FFFFFF;
+  --shadow: 0 1px 2px rgba(20,32,28,.05), 0 8px 24px -16px rgba(20,32,28,.28);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+    --line: #2C3A35; --line-soft: #232E2A;
+    --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+    --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+    --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+    --seg-cost: #8B9E95; --seg-ship: #D2A05B; --seg-fee: #C8564A; --seg-profit: #4FBF9E;
+    --on-mat: #0B1512;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+  --line: #2C3A35; --line-soft: #232E2A;
+  --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+  --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+  --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+  --seg-cost: #8B9E95; --seg-ship: #D2A05B; --seg-fee: #C8564A; --seg-profit: #4FBF9E;
+  --on-mat: #0B1512;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.num { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 22px 0; }
+
+.masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mat); font-weight: 600; margin: 0 0 8px; }
+.eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.eyebrow a:hover { color: var(--ink); }
+h1 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-optical-sizing: auto; font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.02; letter-spacing: -.024em; margin: 0; text-wrap: balance; }
+.dek { margin: 13px 0 0; color: var(--ink-2); max-width: 56ch; font-size: 14.5px; }
+button.ghost { font: inherit; font-size: 12.5px; background: var(--panel); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: border-color .15s, color .15s; }
+button.ghost:hover { border-color: var(--mat); color: var(--mat); }
+:is(a, button, input, select):focus-visible { outline: 2px solid var(--mat); outline-offset: 2px; }
+
+.bench { display: grid; grid-template-columns: minmax(0,0.85fr) minmax(0,1fr); gap: 30px; align-items: start; }
+@media (max-width: 900px) { .bench { grid-template-columns: minmax(0,1fr); } }
+
+.card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; }
+.card + .card { margin-top: 16px; }
+.card h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 15px; font-weight: 700; margin: 0 0 3px; letter-spacing: -.012em; }
+.card .hint { margin: 0 0 14px; font-size: 12.5px; color: var(--ink-3); max-width: 52ch; }
+.card .hint a { color: var(--mat); }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 120px; min-width: 0; }
+.field > label, .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.input-shell { display: flex; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 0 9px; gap: 2px; transition: border-color .15s; }
+.input-shell:focus-within { border-color: var(--mat); }
+.input-shell .affix { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-3); flex: none; }
+.input-shell input { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--ink); background: none; border: 0; padding: 8px 0; width: 100%; min-width: 0; }
+.input-shell input:focus { outline: none; }
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.disc-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+input[type=range] { flex: 1 1 auto; accent-color: var(--mat); height: 22px; }
+.disc-val { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 20px; font-weight: 600; width: 66px; text-align: right; }
+
+.verdict {
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    repeating-linear-gradient(90deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+.verdict .lbl { display: block; margin-bottom: 6px; }
+.chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--mat-wash); color: var(--mat-deep); margin-bottom: 10px; }
+.chip.warn { background: var(--warn-wash); color: var(--warn); }
+.chip.bad { background: var(--loss-wash); color: var(--loss); }
+.v-line { display: flex; align-items: baseline; gap: 4px; }
+.v-line .cur { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--ink-2); font-weight: 500; }
+.v-big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: clamp(42px, 6.6vw, 58px); font-weight: 800; line-height: .92; letter-spacing: -.032em; }
+.v-big.bad { color: var(--loss); }
+.v-sub { margin: 11px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 46ch; }
+.v-sub strong { color: var(--ink); }
+
+.multiplier { margin-top: 16px; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--line); border-left: 3px solid var(--warn); background: var(--panel); }
+.multiplier .big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 32px; font-weight: 700; letter-spacing: -.02em; margin: 8px 0 0; color: var(--warn); }
+.multiplier.bad { border-left-color: var(--loss); }
+.multiplier.bad .big { color: var(--loss); }
+.multiplier p { margin: 6px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 48ch; }
+
+.flow-bar { display: flex; width: 100%; height: 26px; border-radius: 6px; overflow: hidden; background: var(--panel-2); border: 1px solid var(--line); margin-top: 16px; }
+.flow-seg { min-width: 2px; transition: flex-grow .25s ease; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 10px; font-size: 11.5px; color: var(--ink-3); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+.tablewrap { overflow-x: auto; }
+table.grid { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 420px; }
+table.grid th { text-align: right; padding: 9px 10px; background: var(--panel-2); border-bottom: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; white-space: nowrap; }
+table.grid th:first-child { text-align: left; }
+table.grid td { padding: 9px 10px; border-bottom: 1px solid var(--line-soft); text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.grid td:first-child { text-align: left; font-family: "IBM Plex Sans", sans-serif; }
+table.grid tbody tr:last-child td { border-bottom: 0; }
+table.grid tr.here td { background: var(--mat-wash); font-weight: 600; }
+table.grid td.neg { color: var(--loss); }
+
+.safe { margin-top: 16px; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: baseline; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.safe .k { font-size: 13.5px; color: var(--ink-2); }
+.safe .k small { display: block; color: var(--ink-3); font-size: 11.5px; }
+.safe .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 700; color: var(--mat); }
+
+.crosslink { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-top: 30px; padding: 18px 20px; border: 1px solid var(--mat); border-radius: var(--radius); background: var(--mat-wash); }
+.crosslink p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 54ch; }
+.crosslink strong { color: var(--ink); }
+.crosslink a { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14px; padding: 11px 20px; border-radius: 8px; }
+
+.buybox { max-width: 68ch; margin: 46px auto 0; padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.buybox h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; letter-spacing: -.015em; }
+.buybox p { margin: 0 0 14px; color: var(--ink-2); font-size: 14px; }
+.buybox ul { margin: 0 0 18px; padding: 0 0 0 17px; color: var(--ink-2); font-size: 13.5px; }
+.buybox li { margin: 4px 0; }
+.buybox a { display: inline-flex; align-items: center; gap: 9px; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 12px 22px; border-radius: 8px; }
+.buybox .tag { font-family: "IBM Plex Mono", monospace; opacity: .82; }
+
+.article { max-width: 68ch; margin: 56px auto 0; }
+.article h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.018em; margin: 40px 0 12px; text-wrap: balance; }
+.article h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 16px; font-weight: 700; margin: 24px 0 6px; }
+.article p { margin: 0 0 14px; color: var(--ink-2); line-height: 1.66; }
+.article strong { color: var(--ink); font-weight: 600; }
+.formula { display: block; margin: 16px 0; padding: 14px 16px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 13px; overflow-x: auto; }
+.faq { border-top: 1px solid var(--line); margin-top: 12px; }
+.faq details { border-bottom: 1px solid var(--line-soft); }
+.faq summary { list-style: none; cursor: pointer; padding: 14px 26px 14px 0; position: relative; font-weight: 600; font-size: 14.5px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-family: "IBM Plex Mono", monospace; color: var(--mat); font-size: 17px; }
+.faq details[open] summary::after { content: "−"; }
+.faq .ans { padding: 0 0 16px; color: var(--ink-2); font-size: 14px; line-height: 1.62; }
+.faq .ans p { margin: 0 0 10px; }
+.faq .ans p:last-child { margin: 0; }
+
+footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.foot-in { max-width: 1080px; margin: 0 auto; padding: 24px 22px 44px; font-size: 11.5px; color: var(--ink-3); line-height: 1.6; }
+.foot-in p { max-width: 76ch; margin: 0 0 9px; }
+.foot-in a { color: var(--mat); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="eyebrow"><a href="/">Maker&nbsp;Margins</a> &middot; sales &middot; coupon codes &middot; breakeven volume</p>
+      <h1>Discount Calculator</h1>
+      <p class="dek">A 20% off code doesn't cost you 20%. Your materials, your hours and the postage cost exactly the same &mdash; so the whole discount comes out of the profit alone. This shows what's actually left, and how many extra sales it takes just to stand still.</p>
+    </div>
+    <button class="ghost" id="themeBtn" type="button" aria-label="Switch colour theme"><span id="themeIcon">◑</span> Theme</button>
+  </header>
+
+  <div class="bench">
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+
+      <section class="card">
+        <h2>The product</h2>
+        <p class="hint">True cost means materials, packaging and the labour you pay yourself &mdash; the <a href="/pricing-calculator/">pricing calculator</a> works it out if you don't have it to hand.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="price">Full list price</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="price" value="28.00" min="0" step="0.50"></div>
+          </div>
+          <div class="field">
+            <label for="cost">True cost to make</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="cost" value="16.21" min="0" step="0.25"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>The discount</h2>
+        <p class="hint">Drag to see what each level does. The table on the right shows the common ones side by side.</p>
+        <div class="disc-row">
+          <input type="range" id="discount" min="0" max="60" step="1" value="20" aria-label="Discount percentage">
+          <span class="disc-val num" id="discVal">20%</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Shipping &amp; fees</h2>
+        <p class="hint">Fees are charged on the discounted total, but your postage bill doesn't shrink with the sale.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="shipCharge">Shipping charged</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="shipCharge" value="6.50" min="0" step="0.25"></div>
+          </div>
+          <div class="field">
+            <label for="shipCost">Shipping costs you</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="shipCost" value="8.20" min="0" step="0.25"></div>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:10px">
+          <div class="field">
+            <label for="feePct">Fees on order</label>
+            <div class="input-shell"><input type="number" id="feePct" value="11.5" min="0" max="99" step="0.1"><span class="affix">%</span></div>
+          </div>
+          <div class="field">
+            <label for="flatFee">Flat fees</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="flatFee" value="0.45" min="0" step="0.05"></div>
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <div>
+      <section class="verdict">
+        <span class="chip" id="chip">—</span>
+        <span class="lbl">Profit per sale at this discount</span>
+        <div class="v-line"><span class="cur">$</span><span class="v-big num" id="profitDisc">0.00</span></div>
+        <p class="v-sub" id="profitSub"></p>
+
+        <div class="flow-bar" id="flowBar" role="img" aria-label="Where the discounted order total goes"></div>
+        <div class="legend">
+          <span><i style="background:var(--seg-cost)"></i>Cost to make</span>
+          <span><i style="background:var(--seg-ship)"></i>Shipping</span>
+          <span><i style="background:var(--seg-fee)"></i>Fees</span>
+          <span><i style="background:var(--seg-profit)"></i>Profit</span>
+        </div>
+      </section>
+
+      <section class="multiplier" id="multBox">
+        <span class="lbl">To earn what you earned before</span>
+        <p class="big num" id="mult">—</p>
+        <p id="multSub"></p>
+      </section>
+
+      <section class="safe">
+        <span class="k">Biggest discount you can run<small>Beyond this the sale costs you money</small></span>
+        <span class="v num" id="maxDisc">—</span>
+      </section>
+
+      <section class="card">
+        <h2>Common discount levels</h2>
+        <p class="hint">Profit per sale, and the sales volume needed to match your full-price earnings.</p>
+        <div class="tablewrap">
+          <table class="grid">
+            <thead>
+              <tr><th>Discount</th><th>Price</th><th>Profit</th><th>Sales needed</th></tr>
+            </thead>
+            <tbody id="gridBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="crosslink">
+    <p><strong>These numbers are only as good as your cost figure.</strong> If "true cost to make" is a guess, so is everything above it &mdash; and most makers guess low, because packaging and their own hours get left out.</p>
+    <a href="/pricing-calculator/">Work out your true cost &rarr;</a>
+  </div>
+
+  <article class="article">
+
+    <h2>Why a 20% discount isn't a 20% cut</h2>
+
+    <p>The intuition almost everyone starts with is that taking 20% off the price costs 20% of what you were making. It doesn't, and the gap between those two things is where sale seasons quietly go wrong.</p>
+
+    <p>Your costs don't move. The wax, the jar, the box, the hours at the bench, the postage — all identical whether the buyer paid full price or used a code. So the discount doesn't come out of the whole price. <strong>It comes out of the profit, which is the only part that can move.</strong></p>
+
+    <p>On a $28 product with $16.21 of cost, $6.50 of shipping charged against $8.20 of real postage, and typical marketplace fees, full price leaves about <strong>$5.67</strong>. Take 20% off and it leaves about <strong>$0.72</strong>. The price fell by a fifth; the profit fell by nearly seven eighths.</p>
+
+    <h3>The volume nobody calculates</h3>
+
+    <p>Sales are usually justified by volume — you make less per item but sell more of them. That's sound in principle, and the question is simply how many more. Divide profit at full price by profit at the discount and you have it.</p>
+
+    <div class="formula">sales needed = profit at full price &divide; profit at the discounted price</div>
+
+    <p>For the numbers above that's $5.67 ÷ $0.72, or roughly <strong>eight times the volume</strong> to end the month where you'd have ended it anyway. Not 20% more. Eight times. A sale that doesn't come close to that ratio didn't lose you money in an obvious way — it just replaced a quiet month with a busy one that paid the same.</p>
+
+    <h3>The point where it turns</h3>
+
+    <p>Past a certain discount the arithmetic stops being about volume at all, because there's no profit left to multiply. Every additional sale then costs you money, and selling more makes it worse.</p>
+
+    <p>That threshold is usually far lower than sellers expect, because fees and shipping shortfalls don't shrink when you discount. The calculator marks it, and on a typical handmade product with a healthy-looking margin it often lands somewhere in the low twenties of a percent.</p>
+
+    <h2>Discounts that don't cost the same</h2>
+
+    <p>If the goal is to move stock or reward repeat buyers, some levers are cheaper than a straight percentage off. Free shipping thresholds ("free postage over $45") lift order value instead of cutting margin. Bundles spread one shipping cost and one set of flat fees across several items. A small gift with purchase costs its materials rather than a share of every sale.</p>
+
+    <p>None of that means discounts are wrong &mdash; they're a legitimate tool. It just means running one at a number you picked because it sounded good is expensive, and checking first costs nothing.</p>
+
+    <h2>Common questions</h2>
+
+    <div class="faq">
+      <details>
+        <summary>Should I just never run sales?</summary>
+        <div class="ans">
+          <p>No. Sales clear slow stock, bring back past buyers and help a listing's ranking. The point isn't to avoid them — it's to choose the number deliberately and know what volume it needs to work.</p>
+          <p>A 10% code you can sustain beats a 30% one that costs you money on every order.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What about Etsy's own sale features?</summary>
+        <div class="ans">
+          <p>Run them through this the same way. A percentage is a percentage regardless of who's offering it, and marketplace fees are charged on the discounted total — which does soften the blow slightly, since a lower price means a smaller fee. The calculator accounts for that.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Why is my safe discount so low?</summary>
+        <div class="ans">
+          <p>Usually one of two things. Either the item was underpriced to begin with, so there was little margin to give away — the pricing calculator will show that. Or postage is losing money separately, which eats the room a discount would otherwise have.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Are my numbers stored anywhere?</summary>
+        <div class="ans">
+          <p>No. Everything runs in your browser, there's no account, and nothing is uploaded.</p>
+        </div>
+      </details>
+    </div>
+
+  </article>
+
+  <section class="buybox">
+    <h2>Pricing a whole catalogue?</h2>
+    <p>Every calculator here is free and always will be. If you're pricing more than one product, there's a paid edition that keeps your entire catalogue on the bench at once &mdash; a single file you own outright, not a subscription.</p>
+    <ul>
+      <li>Save unlimited products and switch between them instantly</li>
+      <li>Every product ranked by true hourly rate, worst first</li>
+      <li>Reusable material library &mdash; enter a supply cost once, use it everywhere</li>
+      <li>CSV export and a printable one-page cost sheet per product</li>
+      <li>Works offline, forever. No account, no cloud, no monthly fee.</li>
+      <li><strong>Every tool added later is included free.</strong> The price rises as they ship &mdash; what it costs today is the lowest it will ever be.</li>
+    </ul>
+    <a href="https://rodsley.gumroad.com/l/fzflrk?wanted=true">Get the full version <span class="tag">$12</span></a>
+  </section>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <p><strong>Maker Margins</strong> &mdash; <a href="/">free business calculators for handmade sellers</a>.</p>
+    <p>Not affiliated with, endorsed by, or connected to Etsy, Inc. "Etsy" is a trademark of Etsy, Inc. and is used here only to describe what these calculators do.</p>
+    <p>General business calculations, not financial, accounting, tax or legal advice.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  function money(n) { if (!isFinite(n)) { n = 0; } return (n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2); }
+  function numOf(id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; }
+
+  /* Pure — takes a plain object, returns everything the page needs. */
+  function discountModel(i) {
+    var k = (i.feePct || 0) / 100;
+    var fixed = (i.cost || 0) + (i.shipCost || 0) + (i.flatFee || 0);
+
+    function at(discFrac) {
+      var price = (i.price || 0) * (1 - discFrac);
+      var order = price + (i.shipCharge || 0);
+      var fees  = order * k + (i.flatFee || 0);
+      var profit = order - fees - (i.shipCost || 0) - (i.cost || 0);
+      var margin = order > 0 ? (profit / order) * 100 : 0;
+      return { disc: discFrac, price: price, order: order, fees: fees, profit: profit, margin: margin };
+    }
+
+    var full = at(0);
+    var now  = at((i.discount || 0) / 100);
+
+    /* Volume needed to match full-price earnings. Meaningless once profit hits zero. */
+    var multiplier = (now.profit > 0 && full.profit > 0) ? (full.profit / now.profit) : null;
+
+    /* Largest discount whose price still covers cost, postage and every fee. */
+    var maxDisc = null;
+    if (k < 1 && (i.price || 0) > 0) {
+      var orderNeeded = fixed / (1 - k);
+      var priceNeeded = orderNeeded - (i.shipCharge || 0);
+      var d = 1 - (priceNeeded / i.price);
+      maxDisc = Math.max(0, Math.min(1, d));
+    }
+
+    return { at: at, full: full, now: now, multiplier: multiplier, maxDisc: maxDisc, k: k };
+  }
+
+  function readInputs() {
+    return {
+      price: numOf("price"), cost: numOf("cost"),
+      discount: numOf("discount"),
+      shipCharge: numOf("shipCharge"), shipCost: numOf("shipCost"),
+      feePct: numOf("feePct"), flatFee: numOf("flatFee")
+    };
+  }
+
+  function render() {
+    var i = readInputs();
+    var m = discountModel(i);
+    var now = m.now, full = m.full;
+
+    $("discVal").textContent = i.discount + "%";
+
+    var big = $("profitDisc"), chip = $("chip");
+    big.classList.remove("bad");
+    chip.classList.remove("bad", "warn");
+
+    big.textContent = Math.abs(now.profit).toFixed(2);
+    if (now.profit < 0) {
+      big.classList.add("bad"); chip.classList.add("bad");
+      chip.textContent = "Costs you money";
+    } else if (m.maxDisc !== null && (i.discount / 100) > m.maxDisc * 0.8) {
+      chip.classList.add("warn");
+      chip.textContent = "Close to the edge";
+    } else {
+      chip.textContent = "Sustainable";
+    }
+
+    $("profitSub").innerHTML = "Full price leaves <strong>" + money(full.profit) + "</strong> a sale. "
+      + "At " + i.discount + "% off the buyer pays <strong>" + money(now.price) + "</strong> for the item, "
+      + "and you keep <strong>" + money(now.profit) + "</strong>.";
+
+    var segs = [
+      { v: i.cost,     c: "var(--seg-cost)" },
+      { v: i.shipCost, c: "var(--seg-ship)" },
+      { v: now.fees,   c: "var(--seg-fee)" }
+    ];
+    if (now.profit > 0) { segs.push({ v: now.profit, c: "var(--seg-profit)" }); }
+    var denom = Math.max(now.order, i.cost + i.shipCost + now.fees, 0.01);
+    var bar = $("flowBar"); bar.textContent = "";
+    segs.forEach(function (s) {
+      if (s.v <= 0) { return; }
+      var el = document.createElement("div");
+      el.className = "flow-seg"; el.style.background = s.c;
+      el.style.flex = (s.v / denom) + " 0 0";
+      bar.appendChild(el);
+    });
+
+    var box = $("multBox");
+    box.classList.remove("bad");
+    if (m.multiplier === null) {
+      box.classList.add("bad");
+      $("mult").textContent = "No amount";
+      $("multSub").textContent = now.profit <= 0
+        ? "There's no profit left to multiply. Every extra sale at this discount deepens the loss rather than recovering it."
+        : "Full price isn't profitable either, so there's nothing to match.";
+    } else {
+      $("mult").textContent = m.multiplier.toFixed(1) + "× the sales";
+      $("multSub").textContent = "You'd need " + m.multiplier.toFixed(1)
+        + " times your usual volume at " + i.discount + "% off to earn what full price earns — not "
+        + i.discount + "% more.";
+    }
+
+    $("maxDisc").textContent = m.maxDisc === null ? "—" : (m.maxDisc * 100).toFixed(1) + "%";
+
+    var body = $("gridBody"); body.textContent = "";
+    [0, 10, 15, 20, 25, 30, 40, 50].forEach(function (pct) {
+      var r = m.at(pct / 100);
+      var tr = document.createElement("tr");
+      if (pct === Math.round(i.discount)) { tr.className = "here"; }
+
+      var need;
+      if (pct === 0) { need = "—"; }
+      else if (r.profit <= 0) { need = "never"; }
+      else if (full.profit <= 0) { need = "—"; }
+      else { need = (full.profit / r.profit).toFixed(1) + "×"; }
+
+      var cells = [ (pct === 0 ? "Full price" : pct + "% off"), money(r.price), money(r.profit), need ];
+      cells.forEach(function (txt, idx) {
+        var td = document.createElement("td");
+        td.textContent = txt;
+        if (idx === 2 && r.profit < 0) { td.className = "neg"; }
+        if (idx === 3 && need === "never") { td.className = "neg"; }
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+
+  ["price","cost","discount","shipCharge","shipCost","feePct","flatFee"].forEach(function (id) {
+    $(id).addEventListener("input", render);
+  });
+
+  $("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var cur = root.getAttribute("data-theme");
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur === "dark" ? "light" : cur === "light" ? "dark" : (systemDark ? "light" : "dark");
+    root.setAttribute("data-theme", next);
+    $("themeIcon").textContent = next === "dark" ? "◐" : "◑";
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
