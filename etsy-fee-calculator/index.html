@@ -190,6 +190,15 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 .crosslink strong { color: var(--ink); }
 .crosslink a { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14px; padding: 11px 20px; border-radius: 8px; }
 
+/* Paid product — deliberately quieter than the free cross-link above it. */
+.buybox { max-width: 68ch; margin: 46px auto 0; padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.buybox h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; letter-spacing: -.015em; }
+.buybox p { margin: 0 0 14px; color: var(--ink-2); font-size: 14px; }
+.buybox ul { margin: 0 0 18px; padding: 0 0 0 17px; color: var(--ink-2); font-size: 13.5px; }
+.buybox li { margin: 4px 0; }
+.buybox a { display: inline-flex; align-items: center; gap: 9px; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 12px 22px; border-radius: 8px; }
+.buybox .tag { font-family: "IBM Plex Mono", monospace; opacity: .82; }
+
 .article { max-width: 68ch; margin: 56px auto 0; }
 .article h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.018em; margin: 40px 0 12px; text-wrap: balance; }
 .article h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 16px; font-weight: 700; margin: 24px 0 6px; }
@@ -393,6 +402,19 @@ footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--
     </div>
 
   </article>
+
+  <section class="buybox">
+    <h2>Pricing a whole catalogue?</h2>
+    <p>Both calculators here are free and always will be. If you're pricing more than one product, there's a paid edition that keeps your entire catalogue on the bench at once &mdash; a single file you own outright, not a subscription.</p>
+    <ul>
+      <li>Save unlimited products and switch between them instantly</li>
+      <li>Every product ranked by true hourly rate, so the ones quietly costing you money surface first</li>
+      <li>Reusable material library &mdash; enter a supply cost once, use it everywhere</li>
+      <li>CSV export for bookkeeping, and a printable one-page cost sheet per product</li>
+      <li>Works offline, forever. No account, no cloud, no monthly fee.</li>
+    </ul>
+    <a href="https://rodsley.gumroad.com/l/fzflrk?wanted=true">Get the full version <span class="tag">$12</span></a>
+  </section>
 </div>
 
 <footer>
