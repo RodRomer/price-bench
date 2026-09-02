@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Shipping Profit Checker — Does the Postage You Charge Cover What You Pay? | Maker Margins</title>
+<meta name="description" content="Free shipping calculator for handmade sellers. Works out whether the postage you charge actually covers postage, packaging and the marketplace's cut — and what the gap costs you per month.">
+<link rel="canonical" href="https://makermargins.com/shipping-calculator/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shipping Profit Checker — is your postage losing money?">
+<meta property="og:description" content="Postage, packaging, and the fee the marketplace charges on the shipping you collect. See the gap per order and per month.">
+<meta property="og:url" content="https://makermargins.com/shipping-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316715B'/><path d='M30 70V30h10v32h22v8z' fill='%23fff'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Shipping Profit Checker",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "description": "Works out whether the shipping a handmade seller charges covers postage, packaging and marketplace fees.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why doesn't the shipping I charge cover my postage?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Three things eat it. The marketplace charges its percentage fees on the shipping you collect, not just the item. Packaging is rarely counted at all — the box, mailer, tape, filler and card add up to more than most sellers assume. And carrier prices rise every year while listings usually do not. Matching your shipping charge to the carrier's price exactly guarantees a small loss on every order." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should I charge for shipping?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Enough to cover postage plus packaging, divided by one minus the marketplace's percentage fee rate. Because the fee is charged on the shipping you collect, simply charging what the carrier charges leaves you short by roughly the fee amount plus all of your packaging cost." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is free shipping cheaper than charging for postage?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Neither is cheaper in fee terms. Marketplace fees are charged on the order total, and the total is the same whether the buyer pays for the item and postage separately or a single higher price. What matters is whether you raise the item price by enough to absorb postage and packaging when you switch." }
+    }
+  ]
+}
+</script>
+
+<style>
+:root {
+  color-scheme: light;
+  --paper: #F2F4F1; --panel: #FBFCFA; --panel-2: #EAEEE9;
+  --line: #D3DAD2; --line-soft: #E2E7E0;
+  --ink: #14201C; --ink-2: #46564F; --ink-3: #6F7F77;
+  --mat: #16715B; --mat-deep: #0E4E3F; --mat-wash: #DCEBE5;
+  --loss: #A9382A; --loss-wash: #F6E2DE; --warn: #8A5B12; --warn-wash: #F6EBD8;
+  --seg-post: #B3803C; --seg-pack: #9AAAA2; --seg-fee: #A9382A; --seg-keep: #16715B;
+  --on-mat: #FFFFFF;
+  --shadow: 0 1px 2px rgba(20,32,28,.05), 0 8px 24px -16px rgba(20,32,28,.28);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+    --line: #2C3A35; --line-soft: #232E2A;
+    --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+    --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+    --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+    --seg-post: #D2A05B; --seg-pack: #5E6E68; --seg-fee: #C8564A; --seg-keep: #4FBF9E;
+    --on-mat: #0B1512;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+  --line: #2C3A35; --line-soft: #232E2A;
+  --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+  --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+  --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+  --seg-post: #D2A05B; --seg-pack: #5E6E68; --seg-fee: #C8564A; --seg-keep: #4FBF9E;
+  --on-mat: #0B1512;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.num { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 22px 0; }
+
+.masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mat); font-weight: 600; margin: 0 0 8px; }
+.eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.eyebrow a:hover { color: var(--ink); }
+h1 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-optical-sizing: auto; font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.02; letter-spacing: -.024em; margin: 0; text-wrap: balance; }
+.dek { margin: 13px 0 0; color: var(--ink-2); max-width: 56ch; font-size: 14.5px; }
+button.ghost { font: inherit; font-size: 12.5px; background: var(--panel); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: border-color .15s, color .15s; }
+button.ghost:hover { border-color: var(--mat); color: var(--mat); }
+:is(a, button, input, select):focus-visible { outline: 2px solid var(--mat); outline-offset: 2px; }
+
+.bench { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1fr); gap: 30px; align-items: start; }
+@media (max-width: 900px) { .bench { grid-template-columns: minmax(0,1fr); } }
+
+.card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; }
+.card + .card { margin-top: 16px; }
+.card h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 15px; font-weight: 700; margin: 0 0 3px; letter-spacing: -.012em; }
+.card .hint { margin: 0 0 14px; font-size: 12.5px; color: var(--ink-3); max-width: 52ch; }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 120px; min-width: 0; }
+.field > label, .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.input-shell { display: flex; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 0 9px; gap: 2px; transition: border-color .15s; }
+.input-shell:focus-within { border-color: var(--mat); }
+.input-shell .affix { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-3); flex: none; }
+.input-shell input { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--ink); background: none; border: 0; padding: 8px 0; width: 100%; min-width: 0; }
+.input-shell input:focus { outline: none; }
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.ledger { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; }
+.ledger-head, .pk-row { display: grid; grid-template-columns: minmax(0,1fr) 88px 30px; gap: 8px; align-items: center; padding: 7px 10px; }
+.ledger-head { background: var(--panel-2); border-bottom: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.ledger-head span:nth-child(2) { text-align: right; }
+.pk-row + .pk-row { border-top: 1px solid var(--line-soft); }
+.pk-row input { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 13px; color: var(--ink); background: none; border: 1px solid transparent; border-radius: 5px; padding: 5px 6px; width: 100%; min-width: 0; }
+.pk-row input.name { font-family: "IBM Plex Sans", sans-serif; font-variant-numeric: normal; }
+.pk-row input.n { text-align: right; }
+.pk-row input:hover { border-color: var(--line); }
+.pk-row input:focus { outline: none; border-color: var(--mat); background: var(--panel); }
+.del { border: 0; background: none; cursor: pointer; color: var(--ink-3); font-size: 15px; line-height: 1; padding: 4px; border-radius: 5px; }
+.del:hover { color: var(--loss); background: var(--loss-wash); }
+.ledger-foot { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.add-btn { font: inherit; font-size: 12px; color: var(--mat); background: none; border: 0; cursor: pointer; padding: 3px 0; font-weight: 500; }
+.add-btn:hover { text-decoration: underline; }
+.foot-total { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 600; }
+
+.verdict {
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    repeating-linear-gradient(90deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+.verdict .lbl { display: block; margin-bottom: 6px; }
+.v-line { display: flex; align-items: baseline; gap: 4px; }
+.v-line .cur { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--ink-2); font-weight: 500; }
+.v-big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: clamp(44px, 7vw, 62px); font-weight: 800; line-height: .92; letter-spacing: -.032em; }
+.v-big.bad { color: var(--loss); }
+.v-big.good { color: var(--mat); }
+.v-sub { margin: 11px 0 0; font-size: 12.5px; color: var(--ink-2); }
+.chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--mat-wash); color: var(--mat-deep); margin-bottom: 10px; }
+.chip.bad { background: var(--loss-wash); color: var(--loss); }
+
+.flow-bar { display: flex; width: 100%; height: 28px; border-radius: 6px; overflow: hidden; background: var(--panel-2); border: 1px solid var(--line); margin-top: 18px; }
+.flow-seg { min-width: 2px; transition: flex-grow .25s ease; }
+.brk { display: flex; flex-direction: column; margin-top: 14px; }
+.brk-row { display: grid; grid-template-columns: 9px minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.brk-row:last-child { border-bottom: 0; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; }
+.brk-row .k { color: var(--ink-2); }
+.brk-row .k small { display: block; color: var(--ink-3); font-size: 11px; }
+.brk-row .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+.brk-row.total { border-top: 1px solid var(--line); border-bottom: 0; margin-top: 4px; padding-top: 10px; font-weight: 600; }
+
+.monthly { margin-top: 16px; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--line); border-left: 3px solid var(--loss); background: var(--panel); }
+.monthly.ok { border-left-color: var(--mat); }
+.monthly .big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 30px; font-weight: 700; letter-spacing: -.02em; margin: 8px 0 0; }
+.monthly p { margin: 6px 0 0; font-size: 12.5px; color: var(--ink-2); max-width: 48ch; }
+
+.fixes { margin-top: 16px; }
+.fix { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+.fix:last-child { border-bottom: 0; }
+.fix .k { color: var(--ink-2); }
+.fix .k small { display: block; color: var(--ink-3); font-size: 11.5px; }
+.fix .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 16px; color: var(--mat); }
+
+.crosslink { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-top: 30px; padding: 18px 20px; border: 1px solid var(--mat); border-radius: var(--radius); background: var(--mat-wash); }
+.crosslink p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 54ch; }
+.crosslink strong { color: var(--ink); }
+.crosslink a { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14px; padding: 11px 20px; border-radius: 8px; }
+
+.buybox { max-width: 68ch; margin: 46px auto 0; padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.buybox h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; letter-spacing: -.015em; }
+.buybox p { margin: 0 0 14px; color: var(--ink-2); font-size: 14px; }
+.buybox ul { margin: 0 0 18px; padding: 0 0 0 17px; color: var(--ink-2); font-size: 13.5px; }
+.buybox li { margin: 4px 0; }
+.buybox a { display: inline-flex; align-items: center; gap: 9px; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 12px 22px; border-radius: 8px; }
+.buybox .tag { font-family: "IBM Plex Mono", monospace; opacity: .82; }
+
+.article { max-width: 68ch; margin: 56px auto 0; }
+.article h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.018em; margin: 40px 0 12px; text-wrap: balance; }
+.article h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 16px; font-weight: 700; margin: 24px 0 6px; }
+.article p { margin: 0 0 14px; color: var(--ink-2); line-height: 1.66; }
+.article strong { color: var(--ink); font-weight: 600; }
+.formula { display: block; margin: 16px 0; padding: 14px 16px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); font-family: "IBM Plex Mono", monospace; font-size: 13px; overflow-x: auto; }
+.faq { border-top: 1px solid var(--line); margin-top: 12px; }
+.faq details { border-bottom: 1px solid var(--line-soft); }
+.faq summary { list-style: none; cursor: pointer; padding: 14px 26px 14px 0; position: relative; font-weight: 600; font-size: 14.5px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-family: "IBM Plex Mono", monospace; color: var(--mat); font-size: 17px; }
+.faq details[open] summary::after { content: "−"; }
+.faq .ans { padding: 0 0 16px; color: var(--ink-2); font-size: 14px; line-height: 1.62; }
+.faq .ans p { margin: 0 0 10px; }
+.faq .ans p:last-child { margin: 0; }
+
+footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.foot-in { max-width: 1080px; margin: 0 auto; padding: 24px 22px 44px; font-size: 11.5px; color: var(--ink-3); line-height: 1.6; }
+.foot-in p { max-width: 76ch; margin: 0 0 9px; }
+.foot-in a { color: var(--mat); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="eyebrow"><a href="/">Maker&nbsp;Margins</a> &middot; postage &middot; packaging &middot; the fee on both</p>
+      <h1>Shipping Profit Checker</h1>
+      <p class="dek">The postage you charge has to cover the postage you pay, the box it goes in, <em>and</em> the marketplace's cut of the shipping itself. Miss one and every order carries a small loss that never shows up as a loss. Nothing you type leaves your browser.</p>
+    </div>
+    <button class="ghost" id="themeBtn" type="button" aria-label="Switch colour theme"><span id="themeIcon">◑</span> Theme</button>
+  </header>
+
+  <div class="bench">
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+
+      <section class="card">
+        <h2>The shipping charge</h2>
+        <p class="hint">What the buyer pays for postage, and what the carrier actually charges you for the same parcel.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="charge">Charged to buyer</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="charge" value="7.00" min="0" step="0.25"></div>
+          </div>
+          <div class="field">
+            <label for="postage">Postage costs you</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="postage" value="7.40" min="0" step="0.25"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Packaging</h2>
+        <p class="hint">Everything the parcel is made of. This is the part almost nobody counts, and it is usually where the loss actually lives.</p>
+        <div class="ledger">
+          <div class="ledger-head"><span>Item</span><span>Cost</span><span></span></div>
+          <div id="pkRows"></div>
+          <div class="ledger-foot">
+            <button class="add-btn" type="button" id="addPk">+ Add item</button>
+            <span class="foot-total">Packaging <span class="num" id="pkTotal">$0.00</span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Marketplace cut</h2>
+        <p class="hint">The percentage charged on the shipping you collect. On Etsy that's the 6.5% transaction fee plus about 3% payment processing &mdash; both apply to postage, not just the item.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="feePct">Fee on shipping</label>
+            <div class="input-shell"><input type="number" id="feePct" value="9.5" min="0" max="99" step="0.1"><span class="affix">%</span></div>
+          </div>
+          <div class="field">
+            <label for="orders">Orders per month</label>
+            <div class="input-shell"><input type="number" id="orders" value="60" min="0" step="1"></div>
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <div>
+      <section class="verdict">
+        <span class="chip" id="chip">—</span>
+        <span class="lbl" id="verdictLabel">Per order, shipping</span>
+        <div class="v-line"><span class="cur">$</span><span class="v-big num" id="perOrder">0.00</span></div>
+        <p class="v-sub" id="perOrderSub"></p>
+
+        <div class="flow-bar" id="flowBar" role="img" aria-label="Where the shipping charge goes"></div>
+        <div class="brk" id="brk"></div>
+      </section>
+
+      <section class="monthly" id="monthlyBox">
+        <span class="lbl">Over a month</span>
+        <p class="big num" id="monthly">$0.00</p>
+        <p id="monthlySub"></p>
+      </section>
+
+      <section class="card">
+        <h2>What would fix it</h2>
+        <p class="hint">Two ways to close the gap. Both give the same order total, so the marketplace fee is identical either way &mdash; pick on what your buyers respond to, not on fees.</p>
+        <div class="fixes">
+          <div class="fix">
+            <span class="k">Charge this for shipping<small>Covers postage, packaging and the fee exactly</small></span>
+            <span class="v num" id="breakeven">$0.00</span>
+          </div>
+          <div class="fix">
+            <span class="k">Or go free shipping and add this to the item<small>Same total to the buyer, same fee to you</small></span>
+            <span class="v num" id="uplift">$0.00</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="crosslink">
+    <p><strong>Shipping is only one leak.</strong> If the postage was quietly losing money, the item price probably is too &mdash; materials, your hours and the fees on the item itself all stack the same way.</p>
+    <a href="/pricing-calculator/">Check your item price &rarr;</a>
+  </div>
+
+  <article class="article">
+
+    <h2>Why the postage you charge never quite covers it</h2>
+
+    <p>Almost every handmade seller sets their shipping charge by looking up what the carrier charges and typing that number in. It feels careful. It guarantees a loss on every order, for three reasons that stack.</p>
+
+    <h3>The marketplace takes a cut of your postage</h3>
+
+    <p>Etsy's transaction fee and payment processing both apply to the shipping you collect, not just the item price. Charge $7 for postage and roughly 67 cents leaves before you've bought a stamp. That fee is invisible in the sense that nobody sends you a bill for it &mdash; it comes out of the payout.</p>
+
+    <h3>Packaging is a real cost that nobody counts</h3>
+
+    <p>The mailer, the tape, the tissue, the filler, the thank-you card, the printed label. Individually they're pennies, which is exactly why they get waved away. Added up they routinely come to more than a dollar a parcel, and on a $7 shipping charge that's a seventh of it gone.</p>
+
+    <h3>Carrier prices rise. Listings don't.</h3>
+
+    <p>Postage goes up most years. Shipping charges set in a listing two years ago do not. This is the quietest of the three because nothing changes on the day it starts costing you &mdash; the listing looks the same, the orders keep coming, and the margin just thins.</p>
+
+    <h2>The number that makes it real</h2>
+
+    <p>A shortfall of a dollar or two per order is easy to shrug at. The same shortfall across a month of orders usually isn't, which is why this tool multiplies it out. The example above &mdash; $7 charged against $7.40 postage and $1.38 of packaging &mdash; runs $2.45 short per parcel. Across sixty orders that's <strong>$146.70 a month</strong>, money that never appears as a loss anywhere because it's buried inside payouts that still look like profit.</p>
+
+    <h2>Charging correctly</h2>
+
+    <p>You can't fix this by adding the fee on top, for the same reason you can't anywhere else: the fee is charged on the final figure, so raising the charge raises the fee. The shipping charge that exactly covers costs is:</p>
+
+    <code class="formula">shipping charge = (postage + packaging) &divide; (1 &minus; fee rate)</code>
+
+    <p>And the free-shipping version is the same number, moved. If you set shipping to zero, the item price has to rise by exactly that amount &mdash; the buyer pays the same total, the marketplace takes the same fee, and you keep the same margin. The choice between them is about conversion, not cost.</p>
+
+    <h2>Common questions</h2>
+
+    <div class="faq">
+      <details>
+        <summary>Should I just raise my shipping charge?</summary>
+        <div class="ans">
+          <p>You can, but high shipping costs put buyers off more than a high item price does — it reads as a surcharge rather than part of what they're buying. That's why many sellers fold postage into the item and offer free shipping instead.</p>
+          <p>Both are shown above and they cost you exactly the same. Decide on which converts better for your products.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What should I include as packaging?</summary>
+        <div class="ans">
+          <p>Everything that leaves the building with the parcel and isn't the product: outer box or mailer, tape, void fill, tissue, the thank-you card, the printed label, and any branded sticker. If you buy it in bulk, divide the pack price by the number of parcels it covers.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Does this include the fee on the item as well?</summary>
+        <div class="ans">
+          <p>No — deliberately. This tool looks only at whether shipping pays for itself. The fees on the item price, your materials and your labour are a separate question, and the pricing calculator handles all of it together.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Are my numbers stored anywhere?</summary>
+        <div class="ans">
+          <p>No. It all runs in your browser, there's no account, and nothing is uploaded. Close the tab and it's gone.</p>
+        </div>
+      </details>
+    </div>
+
+  </article>
+
+  <section class="buybox">
+    <h2>Pricing a whole catalogue?</h2>
+    <p>Every calculator here is free and always will be. If you're pricing more than one product, there's a paid edition that keeps your entire catalogue on the bench at once &mdash; a single file you own outright, not a subscription.</p>
+    <ul>
+      <li>Save unlimited products and switch between them instantly</li>
+      <li>Every product ranked by true hourly rate, worst first</li>
+      <li>Reusable material library &mdash; enter a supply cost once, use it everywhere</li>
+      <li>CSV export and a printable one-page cost sheet per product</li>
+      <li>Works offline, forever. No account, no cloud, no monthly fee.</li>
+      <li><strong>Every tool added later is included free.</strong> The price rises as they ship &mdash; what it costs today is the lowest it will ever be.</li>
+    </ul>
+    <a href="https://rodsley.gumroad.com/l/fzflrk?wanted=true">Get the full version <span class="tag">$12</span></a>
+  </section>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <p><strong>Maker Margins</strong> &mdash; <a href="/">free business calculators for handmade sellers</a>.</p>
+    <p>Not affiliated with, endorsed by, or connected to Etsy, Inc. "Etsy" is a trademark of Etsy, Inc. and is used here only to describe what these calculators do.</p>
+    <p>General business calculations, not financial, accounting, tax or legal advice. Fee rates and carrier prices change &mdash; verify against your own accounts.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var DEFAULT_PACKAGING = [
+    { name: "Shipper box",        cost: 0.62 },
+    { name: "Bubble wrap / fill", cost: 0.24 },
+    { name: "Packing tape",       cost: 0.08 },
+    { name: "Tissue + sticker",   cost: 0.19 },
+    { name: "Thank-you card",     cost: 0.16 },
+    { name: "Printed label",      cost: 0.09 }
+  ];
+
+  var packaging = [];
+  var $ = function (id) { return document.getElementById(id); };
+  function money(n) { if (!isFinite(n)) { n = 0; } return (n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2); }
+  function numOf(id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; }
+
+  /* Pure. Takes a plain object so it can be tested with no DOM at all. */
+  function shippingModel(i) {
+    var pack = (i.packaging || []).reduce(function (s, p) { return s + (p.cost || 0); }, 0);
+    var k = (i.feePct || 0) / 100;
+
+    var feeOnShipping = (i.charge || 0) * k;
+    var outgoings = (i.postage || 0) + pack + feeOnShipping;
+    var perOrder = (i.charge || 0) - outgoings;
+    var monthly = perOrder * (i.orders || 0);
+
+    /* Charge that exactly covers cost: divide, don't add — the fee lands on the
+       final figure, so raising the charge raises the fee too. */
+    var breakeven = k >= 1 ? null : ((i.postage || 0) + pack) / (1 - k);
+
+    return {
+      pack: pack, k: k, feeOnShipping: feeOnShipping, outgoings: outgoings,
+      perOrder: perOrder, monthly: monthly, breakeven: breakeven,
+      uplift: breakeven, losing: perOrder < 0
+    };
+  }
+
+  function readInputs() {
+    return {
+      charge: numOf("charge"), postage: numOf("postage"),
+      packaging: packaging, feePct: numOf("feePct"), orders: numOf("orders")
+    };
+  }
+
+  function renderPackaging() {
+    var host = $("pkRows");
+    host.textContent = "";
+    packaging.forEach(function (p, idx) {
+      var row = document.createElement("div");
+      row.className = "pk-row";
+
+      var name = document.createElement("input");
+      name.type = "text"; name.className = "name"; name.value = p.name;
+      name.setAttribute("aria-label", "Packaging item");
+      name.addEventListener("input", function () { packaging[idx].name = name.value; });
+
+      var cost = document.createElement("input");
+      cost.type = "number"; cost.className = "n"; cost.step = "0.01"; cost.min = "0"; cost.value = p.cost;
+      cost.setAttribute("aria-label", "Cost");
+      cost.addEventListener("input", function () {
+        var v = parseFloat(cost.value); packaging[idx].cost = isFinite(v) ? v : 0; render();
+      });
+
+      var del = document.createElement("button");
+      del.type = "button"; del.className = "del"; del.innerHTML = "&times;";
+      del.setAttribute("aria-label", "Remove " + (p.name || "item"));
+      del.addEventListener("click", function () { packaging.splice(idx, 1); renderPackaging(); render(); });
+
+      row.appendChild(name); row.appendChild(cost); row.appendChild(del);
+      host.appendChild(row);
+    });
+  }
+
+  function render() {
+    var i = readInputs();
+    var m = shippingModel(i);
+
+    $("pkTotal").textContent = money(m.pack);
+
+    var big = $("perOrder"), chip = $("chip");
+    big.classList.remove("bad", "good");
+    chip.classList.remove("bad");
+
+    big.textContent = Math.abs(m.perOrder).toFixed(2);
+    if (m.losing) {
+      big.classList.add("bad"); chip.classList.add("bad");
+      chip.textContent = "Losing money";
+      $("verdictLabel").textContent = "Short on every order";
+      $("perOrderSub").textContent = "The buyer pays " + money(i.charge) + " for postage, but the parcel costs you "
+        + money(m.outgoings) + " once the fee and packaging are counted.";
+    } else {
+      big.classList.add("good");
+      chip.textContent = "Covers itself";
+      $("verdictLabel").textContent = "Kept per order, after shipping costs";
+      $("perOrderSub").textContent = "Postage, packaging and the marketplace's cut all covered, with "
+        + money(m.perOrder) + " left over.";
+    }
+
+    var rows = [
+      { k: "Postage",          sub: "what the carrier charges you",           v: i.postage,        c: "var(--seg-post)" },
+      { k: "Packaging",        sub: packaging.length + " items",              v: m.pack,           c: "var(--seg-pack)" },
+      { k: "Fee on shipping",  sub: i.feePct + "% of the postage you charged", v: m.feeOnShipping, c: "var(--seg-fee)" }
+    ];
+    if (!m.losing) { rows.push({ k: "Left over", sub: "yours", v: m.perOrder, c: "var(--seg-keep)" }); }
+
+    var bar = $("flowBar"); bar.textContent = "";
+    var denom = Math.max(i.charge, m.outgoings, 0.01);
+    rows.forEach(function (r) {
+      if (r.v <= 0) { return; }
+      var el = document.createElement("div");
+      el.className = "flow-seg"; el.style.background = r.c;
+      el.style.flex = (r.v / denom) + " 0 0";
+      el.title = r.k + " " + money(r.v);
+      bar.appendChild(el);
+    });
+
+    var host = $("brk"); host.textContent = "";
+    rows.forEach(function (r) {
+      var row = document.createElement("div"); row.className = "brk-row";
+      var sw = document.createElement("span"); sw.className = "swatch"; sw.style.background = r.c;
+      var k = document.createElement("span"); k.className = "k";
+      k.appendChild(document.createTextNode(r.k));
+      var s = document.createElement("small"); s.textContent = r.sub; k.appendChild(s);
+      var v = document.createElement("span"); v.className = "v"; v.textContent = money(r.v);
+      row.appendChild(sw); row.appendChild(k); row.appendChild(v);
+      host.appendChild(row);
+    });
+    var tot = document.createElement("div"); tot.className = "brk-row total";
+    var ts = document.createElement("span");
+    var tk = document.createElement("span"); tk.className = "k"; tk.textContent = "Buyer paid for shipping";
+    var tv = document.createElement("span"); tv.className = "v"; tv.textContent = money(i.charge);
+    tot.appendChild(ts); tot.appendChild(tk); tot.appendChild(tv);
+    host.appendChild(tot);
+
+    var box = $("monthlyBox");
+    if (m.losing) { box.classList.remove("ok"); } else { box.classList.add("ok"); }
+    $("monthly").textContent = money(m.monthly);
+    $("monthlySub").textContent = m.losing
+      ? "Across " + i.orders + " orders a month, that's " + money(-m.monthly)
+        + " gone — and it never shows up as a loss, because it's buried in payouts that still look like profit."
+      : "Across " + i.orders + " orders a month, shipping contributes " + money(m.monthly) + " rather than draining it.";
+
+    $("breakeven").textContent = m.breakeven === null ? "—" : money(m.breakeven);
+    $("uplift").textContent    = m.uplift === null ? "—" : money(m.uplift);
+  }
+
+  ["charge","postage","feePct","orders"].forEach(function (id) { $(id).addEventListener("input", render); });
+
+  $("addPk").addEventListener("click", function () {
+    packaging.push({ name: "", cost: 0 });
+    renderPackaging(); render();
+    var rows = $("pkRows").querySelectorAll(".pk-row input.name");
+    if (rows.length) { rows[rows.length - 1].focus(); }
+  });
+
+  $("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var cur = root.getAttribute("data-theme");
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur === "dark" ? "light" : cur === "light" ? "dark" : (systemDark ? "light" : "dark");
+    root.setAttribute("data-theme", next);
+    $("themeIcon").textContent = next === "dark" ? "◐" : "◑";
+  });
+
+  packaging = DEFAULT_PACKAGING.map(function (p) { return { name: p.name, cost: p.cost }; });
+  renderPackaging();
+  render();
+})();
+</script>
+</body>
+</html>
