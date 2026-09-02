@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Etsy Fee Calculator — What Etsy Actually Takes From Each Sale | Maker Margins</title>
+<meta name="description" content="Free Etsy fee calculator. Enter a sale price and see every fee broken out — listing, transaction, payment processing and offsite ads — plus exactly what reaches your bank.">
+<link rel="canonical" href="https://makermargins.com/etsy-fee-calculator/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Etsy Fee Calculator — what Etsy actually takes">
+<meta property="og:description" content="Every Etsy fee broken out separately, including the 6.5% they charge on the postage you collect. See exactly what reaches your bank.">
+<meta property="og:url" content="https://makermargins.com/etsy-fee-calculator/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316715B'/><path d='M30 70V30h10v32h22v8z' fill='%23fff'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Etsy Fee Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "description": "Breaks an Etsy sale into every fee charged and shows the seller's net payout.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Etsy charge fees on shipping?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The 6.5% transaction fee and payment processing both apply to the shipping you charge the buyer, not just the item price. If you charge $7 postage, Etsy takes roughly 10% of that $7 before you ever pay the carrier. Offering free shipping does not avoid this, because the postage cost simply moves into a higher item price which is taxed at the same rate." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does Etsy take per sale in total?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For a typical US seller without offsite ads, roughly 10 to 11 percent of the order total plus about 45 cents in fixed fees. With offsite ads applied to an order, that rises to roughly 22 to 25 percent. The percentage fees are charged on the item price plus shipping combined." }
+    },
+    {
+      "@type": "Question",
+      "name": "What are Etsy Offsite Ads fees?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Etsy advertises listings on external sites. When a sale results from one of those adverts, Etsy charges 15% of the order total for sellers under $10,000 in annual sales, or 12% for sellers above it. Below $10,000 per year participation is optional and can be switched off; above it participation is mandatory. The fee is capped at $100 per order and only applies to ad-attributed orders, not every sale." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Etsy listing fee charged again when an item sells?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The $0.20 listing fee is charged when you first list an item, then again automatically each time it sells, to renew the listing. If you sell multiple quantities of the same item in one order, a renewal fee is charged for each additional quantity." }
+    }
+  ]
+}
+</script>
+
+<style>
+:root {
+  color-scheme: light;
+  --paper: #F2F4F1; --panel: #FBFCFA; --panel-2: #EAEEE9;
+  --line: #D3DAD2; --line-soft: #E2E7E0;
+  --ink: #14201C; --ink-2: #46564F; --ink-3: #6F7F77;
+  --mat: #16715B; --mat-deep: #0E4E3F; --mat-wash: #DCEBE5;
+  --loss: #A9382A; --loss-wash: #F6E2DE; --warn: #8A5B12; --warn-wash: #F6EBD8;
+  --seg-item: #16715B; --seg-listing: #9AAAA2; --seg-tx: #B3803C;
+  --seg-txship: #C8934A; --seg-proc: #A9382A; --seg-ads: #6B2D8C;
+  --on-mat: #FFFFFF;
+  --shadow: 0 1px 2px rgba(20,32,28,.05), 0 8px 24px -16px rgba(20,32,28,.28);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+    --line: #2C3A35; --line-soft: #232E2A;
+    --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+    --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+    --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+    --seg-item: #4FBF9E; --seg-listing: #5E6E68; --seg-tx: #D2A05B;
+    --seg-txship: #E0B77A; --seg-proc: #C8564A; --seg-ads: #A874C8;
+    --on-mat: #0B1512;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #101614; --panel: #171F1C; --panel-2: #1E2825;
+  --line: #2C3A35; --line-soft: #232E2A;
+  --ink: #E6EDE9; --ink-2: #A7B5AE; --ink-3: #7C8C85;
+  --mat: #4FBF9E; --mat-deep: #7FD6BB; --mat-wash: #16302A;
+  --loss: #F0857A; --loss-wash: #35201E; --warn: #E0B25F; --warn-wash: #2E2617;
+  --seg-item: #4FBF9E; --seg-listing: #5E6E68; --seg-tx: #D2A05B;
+  --seg-txship: #E0B77A; --seg-proc: #C8564A; --seg-ads: #A874C8;
+  --on-mat: #0B1512;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+}
+.num { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 22px 0; }
+
+.masthead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mat); font-weight: 600; margin: 0 0 8px; }
+.eyebrow a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.eyebrow a:hover { color: var(--ink); }
+h1 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-optical-sizing: auto; font-weight: 800; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.02; letter-spacing: -.024em; margin: 0; text-wrap: balance; }
+.dek { margin: 13px 0 0; color: var(--ink-2); max-width: 56ch; font-size: 14.5px; }
+button.ghost { font: inherit; font-size: 12.5px; background: var(--panel); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: border-color .15s, color .15s; }
+button.ghost:hover { border-color: var(--mat); color: var(--mat); }
+:is(a, button, input, select):focus-visible { outline: 2px solid var(--mat); outline-offset: 2px; }
+
+.bench { display: grid; grid-template-columns: minmax(0,0.85fr) minmax(0,1fr); gap: 30px; align-items: start; }
+@media (max-width: 900px) { .bench { grid-template-columns: minmax(0,1fr); } }
+
+.card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; }
+.card + .card { margin-top: 16px; }
+.card h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 15px; font-weight: 700; margin: 0 0 3px; letter-spacing: -.012em; }
+.card .hint { margin: 0 0 14px; font-size: 12.5px; color: var(--ink-3); max-width: 50ch; }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 120px; min-width: 0; }
+.field > label, .lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.input-shell { display: flex; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 0 9px; gap: 2px; transition: border-color .15s; }
+.input-shell:focus-within { border-color: var(--mat); }
+.input-shell .affix { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-3); flex: none; }
+.input-shell input { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 14px; color: var(--ink); background: none; border: 0; padding: 8px 0; width: 100%; min-width: 0; }
+.input-shell input:focus { outline: none; }
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.preset-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.preset { font: inherit; font-size: 11.5px; cursor: pointer; background: var(--paper); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; }
+.preset[aria-pressed="true"] { background: var(--mat); border-color: var(--mat); color: var(--on-mat); font-weight: 500; }
+
+.switch-row { display: flex; align-items: flex-start; gap: 11px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); margin-top: 12px; }
+.switch-row input { margin: 3px 0 0; accent-color: var(--mat); width: 16px; height: 16px; flex: none; }
+.switch-row label { font-size: 13px; cursor: pointer; }
+.switch-row .sub { display: block; font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+
+/* ---- Payout ---- */
+.payout {
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    repeating-linear-gradient(90deg, transparent 0 27px, var(--line-soft) 27px 28px),
+    var(--panel);
+  box-shadow: var(--shadow);
+}
+.payout .lbl { display: block; margin-bottom: 6px; }
+.pay-line { display: flex; align-items: baseline; gap: 4px; }
+.pay-line .cur { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--ink-2); font-weight: 500; }
+.pay-big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: clamp(44px, 7vw, 64px); font-weight: 800; line-height: .92; letter-spacing: -.032em; }
+.pay-sub { margin: 11px 0 0; font-size: 12.5px; color: var(--ink-2); }
+.pay-sub strong { color: var(--ink); }
+
+.flow-bar { display: flex; width: 100%; height: 28px; border-radius: 6px; overflow: hidden; background: var(--panel-2); border: 1px solid var(--line); margin-top: 18px; }
+.flow-seg { min-width: 2px; transition: flex-grow .25s ease; }
+
+.brk { display: flex; flex-direction: column; margin-top: 14px; }
+.brk-row { display: grid; grid-template-columns: 9px minmax(0,1fr) auto auto; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.brk-row:last-child { border-bottom: 0; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; }
+.brk-row .k { color: var(--ink-2); min-width: 0; }
+.brk-row .k small { display: block; color: var(--ink-3); font-size: 11px; }
+.brk-row .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+.brk-row .p { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; color: var(--ink-3); font-size: 11.5px; width: 48px; text-align: right; }
+.brk-row.total { border-top: 1px solid var(--line); border-bottom: 0; margin-top: 4px; padding-top: 10px; font-weight: 600; }
+.brk-row.total .k, .brk-row.total .v { color: var(--ink); }
+
+.callout { margin-top: 16px; padding: 12px 14px; border-radius: 8px; background: var(--warn-wash); color: var(--warn); font-size: 12.5px; line-height: 1.5; }
+.callout strong { font-weight: 600; }
+
+.reverse { margin-top: 16px; }
+.reverse .out { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 27px; font-weight: 700; letter-spacing: -.02em; margin: 12px 0 0; }
+.reverse p { margin: 6px 0 0; font-size: 12.5px; color: var(--ink-2); }
+
+.crosslink { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-top: 30px; padding: 18px 20px; border: 1px solid var(--mat); border-radius: var(--radius); background: var(--mat-wash); }
+.crosslink p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 54ch; }
+.crosslink strong { color: var(--ink); }
+.crosslink a { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; background: var(--mat); color: var(--on-mat); text-decoration: none; font-weight: 600; font-size: 14px; padding: 11px 20px; border-radius: 8px; }
+
+.article { max-width: 68ch; margin: 56px auto 0; }
+.article h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.018em; margin: 40px 0 12px; text-wrap: balance; }
+.article h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 16px; font-weight: 700; margin: 24px 0 6px; }
+.article p { margin: 0 0 14px; color: var(--ink-2); line-height: 1.66; }
+.article strong { color: var(--ink); font-weight: 600; }
+.faq { border-top: 1px solid var(--line); margin-top: 12px; }
+.faq details { border-bottom: 1px solid var(--line-soft); }
+.faq summary { list-style: none; cursor: pointer; padding: 14px 26px 14px 0; position: relative; font-weight: 600; font-size: 14.5px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-family: "IBM Plex Mono", monospace; color: var(--mat); font-size: 17px; }
+.faq details[open] summary::after { content: "−"; }
+.faq .ans { padding: 0 0 16px; color: var(--ink-2); font-size: 14px; line-height: 1.62; }
+.faq .ans p { margin: 0 0 10px; }
+.faq .ans p:last-child { margin: 0; }
+
+footer { margin-top: 60px; border-top: 1px solid var(--line); background: var(--panel-2); }
+.foot-in { max-width: 1080px; margin: 0 auto; padding: 24px 22px 44px; font-size: 11.5px; color: var(--ink-3); line-height: 1.6; }
+.foot-in p { max-width: 76ch; margin: 0 0 9px; }
+.foot-in a { color: var(--mat); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <p class="eyebrow"><a href="/">Maker&nbsp;Margins</a> &middot; fee breakdown &middot; net payout</p>
+      <h1>Etsy Fee Calculator</h1>
+      <p class="dek">Every fee on an Etsy sale, broken out separately &mdash; including the one on the postage you collect, which is the one sellers never see coming. Nothing you type leaves your browser.</p>
+    </div>
+    <button class="ghost" id="themeBtn" type="button" aria-label="Switch colour theme"><span id="themeIcon">◑</span> Theme</button>
+  </header>
+
+  <div class="bench">
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+
+      <section class="card">
+        <h2>The sale</h2>
+        <p class="hint">What the buyer paid. Sales tax is excluded &mdash; Etsy collects and remits that separately, and it isn't part of the transaction fee.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="price">Item price</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="price" value="24.00" min="0" step="0.50"></div>
+          </div>
+          <div class="field">
+            <label for="qty">Quantity</label>
+            <div class="input-shell"><input type="number" id="qty" value="1" min="1" step="1"><span class="affix">×</span></div>
+          </div>
+          <div class="field">
+            <label for="ship">Shipping charged</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="ship" value="7.00" min="0" step="0.25"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Fee rates</h2>
+        <p class="hint">Presets reflect published rates at time of writing. Rates change and differ by country &mdash; check yours in Shop Manager and edit below.</p>
+        <div class="preset-row" id="presets">
+          <button class="preset" type="button" data-preset="us" aria-pressed="true">United States</button>
+          <button class="preset" type="button" data-preset="uk" aria-pressed="false">United Kingdom</button>
+          <button class="preset" type="button" data-preset="ca" aria-pressed="false">Canada</button>
+          <button class="preset" type="button" data-preset="au" aria-pressed="false">Australia</button>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="txFee">Transaction</label>
+            <div class="input-shell"><input type="number" id="txFee" value="6.5" min="0" step="0.1"><span class="affix">%</span></div>
+          </div>
+          <div class="field">
+            <label for="procPct">Processing</label>
+            <div class="input-shell"><input type="number" id="procPct" value="3" min="0" step="0.1"><span class="affix">%</span></div>
+          </div>
+          <div class="field">
+            <label for="procFlat">Per order</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="procFlat" value="0.25" min="0" step="0.05"></div>
+          </div>
+          <div class="field">
+            <label for="listFee">Listing</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="listFee" value="0.20" min="0" step="0.05"></div>
+          </div>
+        </div>
+
+        <div class="switch-row">
+          <input type="checkbox" id="adsOn">
+          <label for="adsOn">
+            This sale came from an Offsite Ad
+            <span class="sub">Only charged on ad-attributed orders, not every sale. Capped at $100 per order.</span>
+          </label>
+        </div>
+        <div class="field-row" id="adsRateRow" style="margin-top:10px">
+          <div class="field">
+            <label for="adsPct">Offsite Ads rate</label>
+            <div class="input-shell"><input type="number" id="adsPct" value="15" min="0" step="1"><span class="affix">%</span></div>
+          </div>
+          <div class="field">
+            <label for="adsCap">Cap per order</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="adsCap" value="100" min="0" step="5"></div>
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <div>
+      <section class="payout">
+        <span class="lbl">You receive</span>
+        <div class="pay-line"><span class="cur">$</span><span class="pay-big num" id="net">0.00</span></div>
+        <p class="pay-sub" id="netSub"></p>
+
+        <div class="flow-bar" id="flowBar" role="img" aria-label="How the order total splits between you and Etsy"></div>
+
+        <div class="brk" id="brk"></div>
+
+        <div id="shipNote"></div>
+      </section>
+
+      <section class="card reverse">
+        <h2>Working backwards</h2>
+        <p class="hint">If you want a specific amount to land in your bank, this is what the item would need to be listed at &mdash; keeping shipping and fees as set.</p>
+        <div class="field-row">
+          <div class="field" style="flex:0 0 140px">
+            <label for="want">I want to receive</label>
+            <div class="input-shell"><span class="affix">$</span><input type="number" id="want" value="25.00" min="0" step="0.50"></div>
+          </div>
+        </div>
+        <p class="out num" id="reverseOut">$0.00</p>
+        <p id="reverseMsg"></p>
+      </section>
+    </div>
+  </div>
+
+  <div class="crosslink">
+    <p><strong>Knowing what Etsy takes is half the problem.</strong> The other half is what the item costs you to make &mdash; materials, packaging, and the hours you don't pay yourself for. The pricing calculator solves for a price that covers all of it.</p>
+    <a href="/pricing-calculator/">Work out what to charge &rarr;</a>
+  </div>
+
+  <article class="article">
+
+    <h2>Where the money actually goes</h2>
+
+    <p>Etsy's fees are individually small and collectively significant, and they arrive from four directions at once. Most sellers know the headline 6.5% transaction fee. Fewer can say what they actually netted on last week's orders without looking it up.</p>
+
+    <h3>The fee on your postage</h3>
+
+    <p>This is the one that surprises people. <strong>The transaction fee and payment processing both apply to the shipping you charge</strong>, not just the item price. Charge $7 for postage and Etsy takes roughly 70 cents of it before you've bought a single stamp.</p>
+
+    <p>It isn't a mistake or a loophole &mdash; Etsy is explicit that fees apply to the total order. But it means the postage you collect never fully covers the postage you pay, and sellers who set shipping to match the carrier's price exactly are quietly short on every order.</p>
+
+    <h3>Free shipping doesn't dodge it</h3>
+
+    <p>A common piece of advice is to switch to free shipping to avoid the fee on postage. It doesn't work. The cost has to go somewhere, so it goes into a higher item price &mdash; and the item price is charged the same 6.5%. The order total is identical either way, so the fee is identical too.</p>
+
+    <p>That cuts both ways, and it's worth saying plainly: <strong>free shipping doesn't cost you extra in fees either.</strong> The fee argument is simply irrelevant to the decision. Choose based on whether buyers convert better, not on fees.</p>
+
+    <h3>Offsite Ads are the big one</h3>
+
+    <p>At 12&ndash;15% of the order total, an Offsite Ads fee is larger than every other Etsy fee combined. It only applies to orders that came from Etsy's external advertising, so it doesn't hit every sale &mdash; but when it lands on a low-margin item it can wipe out the profit entirely.</p>
+
+    <p>Below $10,000 in annual sales participation is optional and can be switched off in Shop Manager. Above that it becomes mandatory, though the rate drops to 12%. Tick the box in the calculator to see what one of those orders actually leaves you.</p>
+
+    <h2>Common questions</h2>
+
+    <div class="faq">
+      <details>
+        <summary>Does Etsy charge fees on shipping?</summary>
+        <div class="ans">
+          <p>Yes. Both the 6.5% transaction fee and payment processing apply to the shipping you charge, not just the item. On $7 of postage that's about 70 cents gone before you pay the carrier.</p>
+          <p>The calculator above breaks this out as its own line so you can see it rather than having it buried in a total.</p>
+        </div>
+      </details>
+      <details>
+        <summary>How much does Etsy take in total?</summary>
+        <div class="ans">
+          <p>For a typical US seller with no offsite ad attached, roughly 10&ndash;11% of the order total plus about 45 cents in fixed fees. On a $24 item with $7 shipping that works out around $3.75.</p>
+          <p>With an Offsite Ads fee on the order, it rises to roughly 22&ndash;25%.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Is the listing fee charged again when something sells?</summary>
+        <div class="ans">
+          <p>Yes. The $0.20 fee is charged when you first list, then again on each sale to renew the listing. Selling three of the same item in one order triggers renewal fees for the additional quantities, which is why the quantity field above changes the total.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What about sales tax and VAT?</summary>
+        <div class="ans">
+          <p>In most regions Etsy calculates, collects and remits sales tax or VAT on your behalf, and it isn't part of your earnings or your transaction fee. This calculator deliberately leaves it out for that reason.</p>
+          <p>Your own income tax is a separate matter entirely, and nothing here accounts for it. Talk to an accountant.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Are my figures stored anywhere?</summary>
+        <div class="ans">
+          <p>No. Everything runs in your browser. There's no account, nothing is uploaded, and closing the tab discards it.</p>
+        </div>
+      </details>
+    </div>
+
+  </article>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <p><strong>Maker Margins</strong> &mdash; <a href="/">free business calculators for handmade sellers</a>.</p>
+    <p>Not affiliated with, endorsed by, or connected to Etsy, Inc. "Etsy" is a trademark of Etsy, Inc. and is used here only to describe what this calculator does.</p>
+    <p>This tool provides general business calculations, not financial, accounting, tax or legal advice. Fee rates change frequently and vary by country &mdash; verify current rates against your own seller account before relying on these figures.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var PRESETS = {
+    us: { txFee: 6.5, procPct: 3,   procFlat: 0.25, listFee: 0.20 },
+    uk: { txFee: 6.5, procPct: 4,   procFlat: 0.20, listFee: 0.16 },
+    ca: { txFee: 6.5, procPct: 3,   procFlat: 0.25, listFee: 0.20 },
+    au: { txFee: 6.5, procPct: 3,   procFlat: 0.25, listFee: 0.20 }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  function money(n) { if (!isFinite(n)) { n = 0; } return (n < 0 ? "−$" : "$") + Math.abs(n).toFixed(2); }
+  function num(id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; }
+
+  function model() {
+    var price = num("price"), qty = Math.max(1, Math.round(num("qty"))), ship = num("ship");
+    var itemTotal  = price * qty;
+    var orderTotal = itemTotal + ship;
+
+    var txRate   = num("txFee") / 100;
+    var procRate = num("procPct") / 100;
+
+    /* Broken out by what the fee is charged ON, which is the whole point of this tool. */
+    var txOnItem = itemTotal * txRate;
+    var txOnShip = ship * txRate;
+    var proc     = orderTotal * procRate + num("procFlat");
+    var listing  = num("listFee") * qty;
+
+    var adsOn = $("adsOn").checked;
+    var ads = 0;
+    if (adsOn) {
+      ads = Math.min(orderTotal * (num("adsPct") / 100), num("adsCap"));
+    }
+
+    var fees = txOnItem + txOnShip + proc + listing + ads;
+    var net  = orderTotal - fees;
+    var effective = orderTotal > 0 ? (fees / orderTotal) * 100 : 0;
+
+    return {
+      price: price, qty: qty, ship: ship, itemTotal: itemTotal, orderTotal: orderTotal,
+      txOnItem: txOnItem, txOnShip: txOnShip, proc: proc, listing: listing, ads: ads,
+      adsOn: adsOn, fees: fees, net: net, effective: effective,
+      txRate: txRate, procRate: procRate
+    };
+  }
+
+  function render() {
+    var m = model();
+
+    $("net").textContent = m.net.toFixed(2);
+    $("netSub").innerHTML = "Buyer pays <strong>" + money(m.orderTotal) + "</strong>. Etsy keeps <strong>"
+      + money(m.fees) + "</strong> — an effective <strong>" + m.effective.toFixed(1) + "%</strong> of the order.";
+
+    var rows = [
+      { k: "Your payout",       sub: "before what the item cost you to make", v: m.net,      c: "var(--seg-item)" },
+      { k: "Transaction fee",   sub: "on the item — " + (m.txRate*100).toFixed(1) + "%",     v: m.txOnItem, c: "var(--seg-tx)" },
+      { k: "Transaction fee",   sub: "on the postage you charged",                          v: m.txOnShip, c: "var(--seg-txship)" },
+      { k: "Payment processing",sub: (m.procRate*100).toFixed(1) + "% of order + " + money(num("procFlat")), v: m.proc, c: "var(--seg-proc)" },
+      { k: "Listing fee",       sub: m.qty > 1 ? money(num("listFee")) + " × " + m.qty : "renewal on sale",  v: m.listing, c: "var(--seg-listing)" }
+    ];
+    if (m.adsOn) {
+      rows.push({ k: "Offsite Ads", sub: num("adsPct") + "% of order total", v: m.ads, c: "var(--seg-ads)" });
+    }
+
+    var bar = $("flowBar"); bar.textContent = "";
+    var denom = Math.max(m.orderTotal, 0.01);
+    rows.forEach(function (r) {
+      if (r.v <= 0) { return; }
+      var el = document.createElement("div");
+      el.className = "flow-seg";
+      el.style.background = r.c;
+      el.style.flex = (r.v / denom) + " 0 0";
+      el.title = r.k + " " + money(r.v);
+      bar.appendChild(el);
+    });
+
+    var host = $("brk"); host.textContent = "";
+    rows.forEach(function (r) {
+      var row = document.createElement("div");
+      row.className = "brk-row";
+      var sw = document.createElement("span"); sw.className = "swatch"; sw.style.background = r.c;
+      var k = document.createElement("span"); k.className = "k";
+      k.appendChild(document.createTextNode(r.k));
+      var s = document.createElement("small"); s.textContent = r.sub; k.appendChild(s);
+      var v = document.createElement("span"); v.className = "v"; v.textContent = money(r.v);
+      var p = document.createElement("span"); p.className = "p";
+      p.textContent = m.orderTotal > 0 ? (r.v / m.orderTotal * 100).toFixed(1) + "%" : "—";
+      row.appendChild(sw); row.appendChild(k); row.appendChild(v); row.appendChild(p);
+      host.appendChild(row);
+    });
+
+    var tot = document.createElement("div");
+    tot.className = "brk-row total";
+    var ts = document.createElement("span");
+    var tk = document.createElement("span"); tk.className = "k"; tk.textContent = "Total Etsy fees";
+    var tv = document.createElement("span"); tv.className = "v"; tv.textContent = money(m.fees);
+    var tp = document.createElement("span"); tp.className = "p"; tp.textContent = m.effective.toFixed(1) + "%";
+    tot.appendChild(ts); tot.appendChild(tk); tot.appendChild(tv); tot.appendChild(tp);
+    host.appendChild(tot);
+
+    var note = $("shipNote"); note.textContent = "";
+    if (m.ship > 0 && m.txOnShip > 0) {
+      var d = document.createElement("div");
+      d.className = "callout";
+      d.innerHTML = "You charged <strong>" + money(m.ship) + "</strong> for postage, but <strong>"
+        + money(m.txOnShip + m.ship * m.procRate) + "</strong> of that goes to Etsy in fees. "
+        + "Only <strong>" + money(m.ship - m.txOnShip - m.ship * m.procRate)
+        + "</strong> is left to actually pay the carrier.";
+      note.appendChild(d);
+    }
+
+    renderReverse(m);
+  }
+
+  /* Pure, so it can be tested away from the DOM. Same inversion as the pricing
+     tool: divide by (1 − k) rather than adding the fee on top. Returns null when
+     the fees swallow every dollar. */
+  function solveItemPrice(want, kNoAds, adsRate, adsCap, flat, ship, qty) {
+    var k = kNoAds + adsRate;
+    if (k >= 1) { return null; }
+    var order = (want + flat) / (1 - k);
+
+    /* Above roughly $667 the 15% ads fee hits its $100 cap and stops being a
+       percentage, so the inversion above overshoots. Re-solve with the cap as a
+       flat fee instead. */
+    if (adsRate > 0 && order * adsRate > adsCap) {
+      if (kNoAds >= 1) { return null; }
+      order = (want + flat + adsCap) / (1 - kNoAds);
+    }
+    return (order - ship) / qty;
+  }
+
+  function renderReverse(m) {
+    var want = num("want");
+    var kNoAds = m.txRate + m.procRate;
+    var adsRate = m.adsOn ? num("adsPct") / 100 : 0;
+    var flat = num("procFlat") + num("listFee") * m.qty;
+
+    var itemNeeded = solveItemPrice(want, kNoAds, adsRate, num("adsCap"), flat, m.ship, m.qty);
+    if (itemNeeded === null) {
+      $("reverseOut").textContent = "—";
+      $("reverseMsg").textContent = "Your fee percentages total 100% or more, so no price can reach that payout.";
+      return;
+    }
+
+    if (itemNeeded < 0) {
+      $("reverseOut").textContent = "—";
+      $("reverseMsg").textContent = "The shipping you charge already exceeds that, so the item would need a negative price.";
+      return;
+    }
+    $("reverseOut").textContent = money(itemNeeded) + (m.qty > 1 ? " each" : "");
+    $("reverseMsg").textContent = "Listing at " + money(itemNeeded) + (m.qty > 1 ? " each" : "")
+      + " with " + money(m.ship) + " shipping puts " + money(want) + " in your account"
+      + (m.adsOn ? ", even with the Offsite Ads fee." : ".")
+      + " Note that adding " + (m.adsOn ? "" : "an Offsite Ads fee, or ") + "any discount changes it.";
+  }
+
+  ["price","qty","ship","txFee","procPct","procFlat","listFee","adsPct","adsCap","want"].forEach(function (id) {
+    $(id).addEventListener("input", render);
+  });
+  $("adsOn").addEventListener("change", function () {
+    $("adsRateRow").style.display = this.checked ? "flex" : "none";
+    render();
+  });
+
+  $("presets").addEventListener("click", function (e) {
+    var btn = e.target.closest(".preset");
+    if (!btn) { return; }
+    var p = PRESETS[btn.dataset.preset];
+    if (!p) { return; }
+    Array.prototype.forEach.call(this.querySelectorAll(".preset"), function (b) {
+      b.setAttribute("aria-pressed", String(b === btn));
+    });
+    $("txFee").value = p.txFee; $("procPct").value = p.procPct;
+    $("procFlat").value = p.procFlat; $("listFee").value = p.listFee;
+    render();
+  });
+
+  $("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var cur = root.getAttribute("data-theme");
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var next = cur === "dark" ? "light" : cur === "light" ? "dark" : (systemDark ? "light" : "dark");
+    root.setAttribute("data-theme", next);
+    $("themeIcon").textContent = next === "dark" ? "◐" : "◑";
+  });
+
+  $("adsRateRow").style.display = "none";
+  render();
+})();
+</script>
+</body>
+</html>
